@@ -3,15 +3,11 @@ return {
   event = { "BufReadPre", "BufNewFile" }, -- ファイルを開いたときに読み込み
   config = function()
     require('gitsigns').setup({
-      signs = {
-        -- 行番号横に表示されるマーク
-        add          = { text = '│' }, -- 追加された行
-        change       = { text = '│' }, -- 変更された行
-        delete       = { text = '_' }, -- 削除された行
-        topdelete    = { text = '‾' }, -- ファイル先頭で削除
-        changedelete = { text = '~' }, -- 変更と削除が混在
-        untracked    = { text = '┆' }, -- 未追跡ファイル
-      },
+      -- サイン列（行番号の左側）を非表示にする
+      signcolumn = false,  -- サイン列を完全に非表示
+      -- 行番号に色をつける設定
+      numhl = true,   -- 行番号に色をつける（追加=緑、変更=青、削除=赤）
+      linehl = true,  -- 行全体の背景色をつける
 
       -- カーソル行のblameを自動表示
       current_line_blame = true,
