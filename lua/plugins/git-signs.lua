@@ -1,6 +1,7 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" }, -- ファイルを開いたときに読み込み
+  lazy = false, -- 遅延読み込みを無効化（すぐにロード）
   config = function()
     require('gitsigns').setup({
       -- サイン列（行番号の左側）を非表示にする
@@ -38,22 +39,25 @@ return {
           return '<Ignore>'
         end, { expr = true, desc = '前の変更箇所へ' })
 
-        -- アクション
-        map('n', '<leader>hs', gs.stage_hunk, { desc = 'Gitステージング（現在行）' })
-        map('n', '<leader>hr', gs.reset_hunk, { desc = 'Git変更を元に戻す（現在行）' })
-        map('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = 'Gitステージング（選択範囲）' })
-        map('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = 'Git変更を元に戻す（選択範囲）' })
+        -- アクション（標準キーマップ - Karabinerで変換して使う）
+        -- ノーマルモード
+        map('n', '<leader>hs', gs.stage_hunk, { desc = 'Git: ステージング' })
+        map('n', '<leader>hr', gs.reset_hunk, { desc = 'Git: 変更を元に戻す' })
+        map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Git: アンステージング' })
+        map('n', '<leader>hS', gs.stage_buffer, { desc = 'Git: ファイル全体をステージング' })
+        map('n', '<leader>hR', gs.reset_buffer, { desc = 'Git: ファイル全体を元に戻す' })
 
-        map('n', '<leader>hS', gs.stage_buffer, { desc = 'Gitステージング（ファイル全体）' })
-        map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Gitアンステージング' })
-        map('n', '<leader>hR', gs.reset_buffer, { desc = 'Git変更を元に戻す（ファイル全体）' })
+        -- ビジュアルモード（範囲選択）
+        map('v', '<leader>hs', function() gs.stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = 'Git: ステージング（範囲）' })
+        map('v', '<leader>hr', function() gs.reset_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = 'Git: 変更を戻す（範囲）' })
+        map('v', '<leader>hu', function() gs.undo_stage_hunk {vim.fn.line('.'), vim.fn.line('v')} end, { desc = 'Git: アンステージング（範囲）' })
 
-        map('n', '<leader>hp', gs.preview_hunk, { desc = 'Git変更をプレビュー' })
-        map('n', '<leader>hb', function() gs.blame_line{full=true} end, { desc = 'Git blame表示' })
-        map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'Git blameの自動表示切り替え' })
+        map('n', '<leader>hp', gs.preview_hunk, { desc = 'Git: 変更をプレビュー' })
+        map('n', '<leader>hb', function() gs.blame_line{full=true} end, { desc = 'Git: Blame表示' })
+        map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'Git: Blame自動表示切り替え' })
 
-        map('n', '<leader>hd', gs.diffthis, { desc = 'Git差分表示' })
-        map('n', '<leader>hD', function() gs.diffthis('~') end, { desc = 'Git差分表示（HEAD比較）' })
+        map('n', '<leader>hd', gs.diffthis, { desc = 'Git: 差分表示' })
+        map('n', '<leader>hD', function() gs.diffthis('~') end, { desc = 'Git: HEAD比較' })
 
         -- テキストオブジェクト（変更箇所を選択）
         map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'Git変更箇所を選択' })
