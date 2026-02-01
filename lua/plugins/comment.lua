@@ -3,10 +3,16 @@ return {
   config = function()
     require('Comment').setup()
 
-    -- Cmd+/ でコメントトグル（Ghosttyで ^_ に変換して送信）
-    local key_0x1f = string.char(0x1f)
-    vim.keymap.set('n', key_0x1f, 'gcc', { remap = true, desc = 'コメントトグル (Cmd+/)' })
-    vim.keymap.set('i', key_0x1f, '<Esc>gcci', { remap = true, desc = 'コメントトグル (Cmd+/)' })
-    vim.keymap.set('v', key_0x1f, 'gc', { remap = true, desc = 'コメントトグル (Cmd+/)' })
+    -- Cmd+/ でコメントトグル（GhosttyでF13に変換して送信）
+    vim.keymap.set('n', '<F13>', 'gcc', { remap = true, desc = 'コメントトグル (Cmd+/)' })
+    vim.keymap.set('i', '<F13>', '<Esc>gcci', { remap = true, desc = 'コメントトグル (Cmd+/)' })
+
+    -- Visual modeでは常に行コメント（ブロックコメントにならない）
+    vim.keymap.set('v', '<F13>', function()
+      -- ESCで選択解除してからlinewiseコメントを適用
+      local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
+      vim.api.nvim_feedkeys(esc, 'nx', false)
+      require('Comment.api').toggle.linewise(vim.fn.visualmode())
+    end, { desc = 'コメントトグル (Cmd+/)' })
   end
 }
