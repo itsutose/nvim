@@ -1,20 +1,34 @@
-local map = vim.api.nvim_set_keymap
+-- ============================================================================
+-- Neovim Keymaps Configuration
+-- ============================================================================
+-- 全てのカスタムキーマップをここに集約
+-- セクションごとに整理して管理
 
--- move to start/end of line
-map('n', '<C-h>', '^', { noremap = true, silent = true })
-map('n', '<C-;>', '$', { noremap = true, silent = true })
-map('v', '<C-h>', '^', { noremap = true, silent = true })
-map('v', '<C-;>', '$', { noremap = true, silent = true })
+local map = vim.keymap.set
 
--- move to start/end of line (Shift version)
-map('n', '<S-H>', '^', { noremap = true, silent = true })
-map('n', '<S-L>', '$', { noremap = true, silent = true })
-map('v', '<S-H>', '^', { noremap = true, silent = true })
-map('v', '<S-L>', '$', { noremap = true, silent = true })
+-- ============================================================================
+-- 1. モード切り替え（最重要）
+-- ============================================================================
 
--- jj to escape insert mode
-vim.keymap.set('i', 'jj', '<Esc>', { noremap = true, silent = true })
+-- Ctrl+c で確実に Normal mode へ（日本語入力中でも動作）
+-- im-selectにより自動的に英数入力に切り替わる
+map('i', '<C-c>', '<Esc>', {
+  noremap = true,
+  silent = true,
+  desc = 'Normal modeへ（日本語入力中OK・英数自動切替）'
+})
+map('v', '<C-c>', '<Esc>', {
+  noremap = true,
+  silent = true,
+  desc = 'Normal modeへ'
+})
 
--- comment out (Cmd + /)
-map('n', '<D-/>', 'gcc', { noremap = false })
-map('v', '<D-/>', 'gc', { noremap = false })
+
+-- ============================================================================
+-- 10. コメントアウト
+-- ============================================================================
+-- 注: comment.nvim プラグインに依存
+
+map('n', '<D-/>', 'gcc', { noremap = false, desc = 'コメントトグル' })
+map('v', '<D-/>', 'gc', { noremap = false, desc = 'コメントトグル' })
+
