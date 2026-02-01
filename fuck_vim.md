@@ -56,6 +56,10 @@ karabiner-elementによってmacOS（JIS配列）の標準的なキーボード�
         - jjによるnormalへの切り替えは絶対ではない。候補としては英数キーを関連させたキーバインドを作る。他にもいい案があれば提案してほしい。
 
 
+**必要ない操作**
+    - shift+j(normal)
+    - ctrl+u(normal)
+
 **気になっていること**
 
     - command, control, shiftなどは左右で区別することができるか？
@@ -91,11 +95,43 @@ karabiner-elementによってmacOS（JIS配列）の標準的なキーボード�
 
 **設定しておきたいもの**
 これはvimのpluginとかを入れることで対処できそうなもの. vimが悪いというよりかは、運用でなんとかできそうなもの
+詳しく調べていないので、lazy.nvimで管理できるかも含めて調査する
+
 
 - markdownをいい感じに表示するやつ
-    - previewではなく、plain textのmdをいい感じにしたい。
+    - previewではなく、plain textのmdをいい感じにしたい
         - ハイライト
         - 折りたたみ
         - 色をいい感じにする
         - etc
-- vimのキーバインディングについて、どのキーが何かというのをGUI的に把握できるようにしたい。
+    - mermaidグラフを表示させるためのpreview用のものも必要
+        - mdファイルと、その中でmermaidグラフを見ることができるもの
+            - peek.nvim:https://github.com/toppair/peek.nvim
+                - Denoが必要
+
+- vimのキーバインディング管理
+    どのキーが何かというのをGUI的に把握できるようにしたい。
+- git関連
+    - git-messanger.nvim:https://github.com/rhysd/git-messenger.vim
+        - その行のcommitメッセージを遡ってみれる
+    - blamer.nvim:https://github.com/APZelos/blamer.nvim
+        - git blameをghost textとして出せる
+    - diffview.nvim:https://github.com/sindrets/diffview.nvim
+        - diffガミやすく可視化できる
+
+- easymotion
+    lazy.nvimなので、pluginに↓を追加
+    ```hop.lua
+    return {
+      "phaazon/hop.nvim",
+      branch = "v2",
+      config = function()
+        require("hop").setup {
+          multi_windows = true,
+        }
+      end,
+      keys = {
+        {mode = "", "<leader>s", "<cmd>HopChar<CR>", desc = "説明"},
+      }
+    }
+    ```
