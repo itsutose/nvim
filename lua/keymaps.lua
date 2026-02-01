@@ -28,6 +28,10 @@ map('v', '<C-c>', '<Esc>', {
 -- 10. コメントアウト
 -- ============================================================================
 -- 注: comment.nvim プラグインに依存
+-- Ghosttyで Cmd+/ を Ctrl+/ (0x1F = ^_) に変換して送信
+-- (Neovim 0.11は完全なKitty Keyboard Protocolをまだサポートしていないため)
+-- マッピングは lua/plugins/comment.lua 内で設定（プラグインロード後に設定する必要があるため）
+
 
 map('n', '<D-/>', 'gcc', { noremap = false, desc = 'コメントトグル' })
 map('v', '<D-/>', 'gc', { noremap = false, desc = 'コメントトグル' })
