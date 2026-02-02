@@ -55,3 +55,23 @@ vim.api.nvim_create_autocmd("InsertLeave", {
     end
   end,
 })
+
+-- BufLeave（バッファを離れる時）でも保存
+-- 別のファイルに切り替える前に確実に保存する
+vim.api.nvim_create_autocmd("BufLeave", {
+  pattern = "*",
+  callback = function()
+    if vim.bo.modified and vim.fn.expand("%") ~= "" then
+      local excluded_filetypes = {
+        "lazy",
+        "TelescopePrompt",
+        "NvimTree",
+        "help",
+      }
+
+      if not vim.tbl_contains(excluded_filetypes, vim.bo.filetype) then
+        vim.cmd("silent! write")
+      end
+    end
+  end,
+})
