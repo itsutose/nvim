@@ -15,6 +15,16 @@ return {
         preview = {
           treesitter = false,
         },
+        -- ripgrepのパスを明示的に指定（aliasを回避）
+        vimgrep_arguments = {
+          '/opt/homebrew/bin/rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+        },
       },
     })
   end,
