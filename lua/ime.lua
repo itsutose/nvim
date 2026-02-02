@@ -1,13 +1,30 @@
--- IME自動切り替え設定
-if vim.fn.executable('im-select') == 1 then
-  local im_select_path = vim.fn.exepath('im-select')
-  local default_im = 'com.apple.keylayout.ABC'  -- 英語入力のID
+-- ============================================================================
+-- IME強制英語化 - Normal/Visualモードで確実に英語にする
+-- ============================================================================
+-- モード変更時にのみチェック（定期チェックなし、効率的）
 
-  -- Insert modeから抜ける時に英語入力に戻す
-  vim.api.nvim_create_autocmd('InsertLeave', {
-    pattern = '*',
-    callback = function()
+local im_select_path = '/opt/homebrew/bin/im-select'
+local default_im = 'com.apple.keylayout.ABC'
+
+-- Nvimのモードが変わった時に、Normal/Visual/Commandモードなら英語化
+vim.api.nvim_create_autocmd('ModeChanged', {
+  pattern = '*',
+  callback = function()
+    local mode = vim.api.nvim_get_mode().mode
+    -- Insert mode (i, ic, ix, R, Rc, Rx) 以外なら英語化
+    if not mode:match('^[iR]') then
       vim.fn.system(im_select_path .. ' ' .. default_im)
-    end,
-  })
-end
+    end
+  end,
+})
+
+-- 起動時とフォーカス取得時も英語化
+vim.api.nvim_create_autocmd({
+  'VimEnter',      -- Nvim起動時
+  'FocusGained',   -- フォーカス取得時
+}, {
+  pattern = '*',
+  callback = function()
+    vim.fn.system(im_select_path .. ' ' .. default_im)
+  end,
+})
