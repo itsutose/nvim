@@ -71,6 +71,41 @@ return {
         hyperlink = "󰌹 ",  -- ハイパーリンクのアイコン
       },
     })
+
+    -- Markdown用の折りたたみ設定
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = "markdown",
+      callback = function()
+        vim.opt_local.foldmethod = "expr"
+        vim.opt_local.foldexpr = "v:lua.markdown_foldexpr()"
+        vim.opt_local.foldenable = false  -- 開いたときは展開状態
+        vim.opt_local.foldlevel = 99      -- デフォルトで全展開
+      end,
+    })
+
+    -- Markdown用の折りたたみ関数（見出しレベルで折りたたみ）
+    _G.markdown_foldexpr = function()
+      local line = vim.fn.getline(vim.v.lnum)
+      local next_line = vim.fn.getline(vim.v.lnum + 1)
+
+      -- ATX形式の見出し（# で始まる行）
+      local heading = line:match("^(#+)%s")
+      if heading then
+        -- 見出しレベルをそのまま返す（#の数 = 折りたたみレベル）
+        -- ## は2, ### は3 となり、階層的な折りたたみが可能
+        return ">" .. #heading
+      end
+
+      -- Setext形式の見出し（下線スタイル）
+      if next_line:match("^=+%s*$") then
+        return ">1"
+      elseif next_line:match("^-+%s*$") then
+        return ">2"
+      end
+
+      -- 通常の行は前の行と同じレベルを継続
+      return "="
+    end
   end,
   keys = {
     -- トグル用のキーマップ（オン/オフ切り替え）

@@ -105,7 +105,7 @@ karabiner-elementによってmacOS（JIS配列）の標準的なキーボード�
 
 
 - markdownをいい感じに表示するやつ
-    - previewではなく、plain textのmdをいい感じにしたい
+    - [x] previewではなく、plain textのmdをいい感じにしたい
         - ハイライト
         - 折りたたみ
         - 色をいい感じにする
