@@ -1,4 +1,5 @@
 require("base")
 require("keymaps")
 require("ime")
+require("autosave")
 require("config.lazy")
