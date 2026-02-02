@@ -24,6 +24,8 @@ vim.o.guicursor = 'n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50'
 vim.o.timeoutlen = 500
 vim.o.ttimeoutlen = 10
 
+vim.o.relativenumber = true
+
 -- コマンドライン高さ（メッセージがENTER待ちにならないように）
 vim.o.cmdheight = 2
 
