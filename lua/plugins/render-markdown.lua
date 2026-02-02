@@ -78,8 +78,25 @@ return {
       callback = function()
         vim.opt_local.foldmethod = "expr"
         vim.opt_local.foldexpr = "v:lua.markdown_foldexpr()"
-        vim.opt_local.foldenable = false  -- 開いたときは展開状態
+        vim.opt_local.foldenable = true   -- 折りたたみを有効化
         vim.opt_local.foldlevel = 99      -- デフォルトで全展開
+      end,
+    })
+
+    -- 折りたたみ状態を保存・復元
+    vim.api.nvim_create_autocmd("BufWinLeave", {
+      pattern = "*.md,*.markdown",
+      callback = function()
+        -- 折りたたみ状態を保存
+        vim.cmd("silent! mkview")
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("BufWinEnter", {
+      pattern = "*.md,*.markdown",
+      callback = function()
+        -- 折りたたみ状態を復元
+        vim.cmd("silent! loadview")
       end,
     })
 
