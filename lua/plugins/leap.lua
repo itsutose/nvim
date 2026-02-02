@@ -7,21 +7,17 @@
 return {
   url = "https://codeberg.org/andyg/leap.nvim",
   dependencies = { "tpope/vim-repeat" }, -- ドットリピート対応
+  event = "VeryLazy",  -- Nvim起動後すぐにロード
   config = function()
     local leap = require('leap')
 
-    -- デフォルトキーマップを設定
-    leap.add_default_mappings()
+    -- 手動でキーマップを設定
+    vim.keymap.set({'n', 'x', 'o'}, 's',  '<Plug>(leap-forward)')
+    vim.keymap.set({'n', 'x', 'o'}, 'S',  '<Plug>(leap-backward)')
+    vim.keymap.set({'n', 'x', 'o'}, 'gs', '<Plug>(leap-from-window)')
 
     -- カスタマイズ（お好みで）
     -- leap.opts.case_sensitive = false  -- 大文字小文字を区別しない
     -- leap.opts.safe_labels = {}  -- 安全ラベルを無効化（全ラベル使用）
   end,
-  keys = {
-    -- sで前方検索、Sで後方検索（デフォルト）
-    -- gs で全ウィンドウを対象に検索
-    { "s", mode = { "n", "x", "o" }, desc = "Leap forward" },
-    { "S", mode = { "n", "x", "o" }, desc = "Leap backward" },
-    { "gs", mode = { "n", "x", "o" }, desc = "Leap from windows" },
-  },
 }
