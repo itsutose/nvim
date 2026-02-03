@@ -87,39 +87,63 @@ return {
       })
     end
   },
+
+  -- 5. Monokai Pro（Sublime Text風）
+  {
+    "loctvl842/monokai-pro.nvim",
+    lazy = false,
+    priority = 996,
+    config = function()
+      require("monokai-pro").setup()
+    end
+  },
+
+  -- 6. Sonokai（Monokai進化版）
+  {
+    "sainnhe/sonokai",
+    lazy = false,
+    priority = 995,
+    config = function()
+      vim.g.sonokai_style = 'andromeda'  -- default, atlantis, andromeda, shusia, maia, espresso
+    end
+  },
+
+  -- 7. Material（Googleマテリアルデザイン）
+  {
+    "marko-cerovac/material.nvim",
+    lazy = false,
+    priority = 994,
+    config = function()
+      vim.g.material_style = "darker"  -- darker, lighter, oceanic, palenight, deep ocean
+    end
+  },
+
+  -- 8. Everforest（森のような緑系）
+  {
+    "sainnhe/everforest",
+    lazy = false,
+    priority = 993,
+    config = function()
+      vim.g.everforest_background = 'hard'  -- soft, medium, hard
+    end
+  },
+
+  -- 9. VSCode Dark+（VSCode再現）
+  {
+    "Mofiqul/vscode.nvim",
+    lazy = false,
+    priority = 992,
+    config = function()
+      require('vscode').setup({
+        style = 'dark'
+      })
+    end
+  },
+
+  -- 10. Ayu（シンプルモダン）
+  {
+    "Shatur/neovim-ayu",
+    lazy = false,
+    priority = 991,
+  },
 }
-
--- ============================================================================
--- 他のテーマ候補（コメントアウト）
--- ============================================================================
--- 試したい場合は上記と入れ替える
-
--- Carbonfox（炭のような黒）
--- return {
---   "EdenEast/nightfox.nvim",
---   priority = 1000,
---   config = function()
---     vim.cmd.colorscheme("carbonfox")
---   end
--- }
-
--- One Dark Darker（非常に暗い）
--- return {
---   "navarasu/onedark.nvim",
---   priority = 1000,
---   config = function()
---     require('onedark').setup({ style = 'darker' })
---     require('onedark').load()
---   end
--- }
-
--- Tokyonight Night（現在のテーマの暗いバージョン）
--- return {
---   "folke/tokyonight.nvim",
---   lazy = false,
---   priority = 1000,
---   config = function()
---     require("tokyonight").setup({ style = "night" })
---     vim.cmd.colorscheme("tokyonight-night")
---   end
--- }
