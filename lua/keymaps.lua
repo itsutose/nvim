@@ -152,6 +152,18 @@ map('n', '<F15>', '<C-r>', { noremap = true, silent = true, desc = 'Redo (Cmd+Sh
 map('i', '<F14>', '<Esc>ui', { noremap = true, silent = true, desc = 'Undo (Cmd+Z)' })
 map('i', '<F15>', '<Esc><C-r>i', { noremap = true, silent = true, desc = 'Redo (Cmd+Shift+Z)' })
 
+-- ============================================================================
+-- Backspace（削除キー）の動作設定
+-- ============================================================================
+-- Karabinerで right_ctrl+u → backspace に変換される
+-- Normal/Visual modeでも削除として機能するように設定
+
+-- Normal mode: backspaceで前の文字を削除
+map('n', '<BS>', 'X', { noremap = true, silent = true, desc = 'カーソル前の文字を削除 (right_ctrl+u)' })
+
+-- Visual mode: backspaceで選択範囲を削除
+map('v', '<BS>', 'x', { noremap = true, silent = true, desc = '選択範囲を削除 (right_ctrl+u)' })
+
 -- -- ============================================================================
 -- -- 12. その他便利機能
 -- -- ============================================================================
