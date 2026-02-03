@@ -50,11 +50,10 @@ karabiner-elementによってmacOS（JIS配列）の標準的なキーボード�
 ## あると良さそうな点, 改善できそうな方法
 - inserモードでもある程度、（せめて同じ行での移動など）でnormalモードの操作をできる
     - せめて行頭、行末、単語単位での移動というのができるようにしたい
-- normalモードへの切り替えを日本語入力・英語入力に関係なく行えること
+- [x] normalモードへの切り替えを日本語入力・英語入力に関係なく行えること
     - 少なくとも、日本語入力がある場合でのvimのモード切り替えは日本語入力→英数入力を行って、vimモード切り替えというようなに段階になる場合が多々ある
     - これを改善するだけでも、insert中にnormalにいこうとして「っj」を入力してしまうというようなことは防げる
-    - jjによるnormalへの切り替えは絶対ではない。候補としては英数キーを関連させたキーバインドを作る。他にもいい案があれば提案してほしい。
-- normalモードに戻るタイミングで:wする
+    - ~~jjによるnormalへの切り替えは絶対ではない。候補としては英数キーを関連させたキーバインドを作る。他にもいい案があれば提案してほしい。~~
 - [x] normalモードに戻るタイミングで:wする
     - これで問題がないかの確認
     - というかvscodeの自動保存みたいに操作のたびに保存したい
@@ -78,18 +77,18 @@ karabiner-elementによってmacOS（JIS配列）の標準的なキーボード�
     - 解決方法。↓のようにできないかと思った。またこれの実現性と利便性について確認、考察
         - visual, normal時にxxキーを入力したらinsert
         - insert, normal時にyyキーを入力したらvisual
-        - insert, visual時にzzキーを入力したらnormal
+        - [x] insert, visual時にzzキーを入力したらnormal
     - 日本語モードでも関係なくモード切り替えができるようにするというだけでもかなり恩恵があると思う。
         - ただし、escは遠いので論外、別のキー割り当てで対処したい。
         - まだ詳しい制限などは考えていないが、japanese_eisuu, japanese_kanaのキーをこれに用いることができないかと考えている。
             - japanese_eisuuを押すと強制的にnormalにするとか、ただしこれだとinsertで日本語から英数入力への切り替えができなくなるので、right_control+japanese_eisuuのようにしてできそうかなどの検討をしたい。
 - normalでのw,e,b
     - w,eは簡単に入力できるがbは打ちづらい。そもそも、w,eは似たような操作であるにも関わらず、それと反対のキーが全く統一的でない別のところにあるのがややこしいし打ちづらい。
--
 
 
 
-## わからない操作の方法(単純)
+
+## わからない操作の方法(単純)g
 - insert, normalでのBS, Delの方法
 - visualでの行頭、行末への行き方
     - Shift+Vで起動すれば良いということは知っているが、vで起動してしまった時にこのような操作はしたい。
@@ -125,10 +124,10 @@ karabiner-elementによってmacOS（JIS配列）の標準的なキーボード�
     - diffview.nvim:https://github.com/sindrets/diffview.nvim
         - diffガミやすく可視化できる
 
-- easymotion
+- [x] easymotion
     - leap.luaを使うことにした
     - hop.luaは使わない
-    lazy.nvimなので、pluginに↓を追加
+    ~~Lazy.nvimなので、pluginに↓を追加
     ```hop.lua
     return {
       "phaazon/hop.nvim",
@@ -143,4 +142,7 @@ karabiner-elementによってmacOS（JIS配列）の標準的なキーボード�
       }
     }
     ```
+ここに自由に記述できます
 
+
+テスト
