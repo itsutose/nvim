@@ -143,14 +143,25 @@ map('v', '<C-c>', '<Esc>', {
 -- 11. Undo/Redo（Cmd+Z / Cmd+Shift+Z）
 -- ============================================================================
 -- Ghosttyで Cmd+Z → F14, Cmd+Shift+Z → F15 に変換して送信
+-- tmux内外で両方動作するように、複数のキーコードをマッピング
 
--- Normal mode: Undo/Redo
+-- Undo (Cmd+Z)
+-- tmux外: F14 (\x1b[26~) → <F14>として認識される
 map('n', '<F14>', 'u', { noremap = true, silent = true, desc = 'Undo (Cmd+Z)' })
-map('n', '<F15>', '<C-r>', { noremap = true, silent = true, desc = 'Redo (Cmd+Shift+Z)' })
-
--- Insert mode: Escapeしてから Undo/Redo、その後Insert modeに戻る
 map('i', '<F14>', '<Esc>ui', { noremap = true, silent = true, desc = 'Undo (Cmd+Z)' })
+
+-- tmux内: F14 → Neovimが<S-F4>として解釈
+map('n', '<S-F4>', 'u', { noremap = true, silent = true, desc = 'Undo (Cmd+Z via tmux)' })
+map('i', '<S-F4>', '<Esc>ui', { noremap = true, silent = true, desc = 'Undo (Cmd+Z via tmux)' })
+
+-- Redo (Cmd+Shift+Z)
+-- tmux外: F15 (\x1b[28~) → <F15>として認識される
+map('n', '<F15>', '<C-r>', { noremap = true, silent = true, desc = 'Redo (Cmd+Shift+Z)' })
 map('i', '<F15>', '<Esc><C-r>i', { noremap = true, silent = true, desc = 'Redo (Cmd+Shift+Z)' })
+
+-- tmux内: F15 → Neovimが<S-F5>として解釈
+map('n', '<S-F5>', '<C-r>', { noremap = true, silent = true, desc = 'Redo (Cmd+Shift+Z via tmux)' })
+map('i', '<S-F5>', '<Esc><C-r>i', { noremap = true, silent = true, desc = 'Redo (Cmd+Shift+Z via tmux)' })
 
 -- ============================================================================
 -- Backspace（削除キー）の動作設定
@@ -193,6 +204,79 @@ map('n', '<leader>Q', ':qa<CR>', {
   noremap = true,
   silent = true,
   desc = '全ウィンドウを閉じる（Nvim終了）'
+})
+
+-- ============================================================================
+-- 13. テーマ切り替え
+-- ============================================================================
+-- プレビュー付きでテーマを選択できる
+
+-- テーマ選択画面を開く（プレビュー付き）
+map('n', '<leader>tc', '<cmd>Telescope colorscheme<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'テーマ選択（プレビュー付き）'
+})
+
+-- よく使うテーマへのクイック切り替え
+map('n', '<leader>t1', '<cmd>colorscheme catppuccin<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Catppuccin（黒強め）'
+})
+
+map('n', '<leader>t2', '<cmd>colorscheme tokyonight<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Tokyonight（元のテーマ）'
+})
+
+map('n', '<leader>t3', '<cmd>colorscheme carbonfox<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Carbonfox（炭のような黒）'
+})
+
+map('n', '<leader>t4', '<cmd>colorscheme onedark<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'One Dark（暗めバランス型）'
+})
+
+map('n', '<leader>t5', '<cmd>colorscheme monokai-pro<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Monokai Pro（ビビッド）'
+})
+
+map('n', '<leader>t6', '<cmd>colorscheme sonokai<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Sonokai（Monokai進化版）'
+})
+
+map('n', '<leader>t7', '<cmd>colorscheme material<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Material（Googleデザイン）'
+})
+
+map('n', '<leader>t8', '<cmd>colorscheme everforest<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Everforest（緑系）'
+})
+
+map('n', '<leader>t9', '<cmd>colorscheme vscode<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'VSCode Dark+（VSCode再現）'
+})
+
+map('n', '<leader>t0', '<cmd>colorscheme ayu-dark<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Ayu（シンプル）'
 })
 
 -- ============================================================================
