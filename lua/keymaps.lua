@@ -168,12 +168,38 @@ map('i', '<S-F5>', '<Esc><C-r>i', { noremap = true, silent = true, desc = 'Redo 
 -- ============================================================================
 -- Karabinerで right_ctrl+u → backspace に変換される
 -- Normal/Visual modeでも削除として機能するように設定
+-- 全ての削除操作でブラックホールレジスタ("_)を使用し、レジスタを汚染しない
 
--- Normal mode: backspaceで前の文字を削除
-map('n', '<BS>', 'X', { noremap = true, silent = true, desc = 'カーソル前の文字を削除 (right_ctrl+u)' })
+-- Normal mode: backspaceで前の文字を削除（レジスタに入れない）
+map('n', '<BS>', '"_X', { noremap = true, silent = true, desc = 'カーソル前の文字を削除 (right_ctrl+u)' })
 
--- Visual mode: backspaceで選択範囲を削除
-map('v', '<BS>', 'x', { noremap = true, silent = true, desc = '選択範囲を削除 (right_ctrl+u)' })
+-- Visual mode: backspaceで選択範囲を削除（レジスタに入れない）
+map('v', '<BS>', '"_x', { noremap = true, silent = true, desc = '選択範囲を削除 (right_ctrl+u)' })
+
+-- Ctrl+U を全モードでBackspace（削除）として機能させる
+-- 標準のCtrl+U動作（Insert:行頭まで削除、Normal:スクロール）を上書き
+-- レジスタを汚染せず純粋な削除のみ
+
+-- Insert mode: Ctrl+U で1文字削除（Backspace相当）
+map('i', '<C-u>', '<BS>', { noremap = true, silent = true, desc = '1文字削除 (Ctrl+U)' })
+
+-- Normal mode: Ctrl+U でカーソル前の文字を削除（レジスタに入れない）
+map('n', '<C-u>', '"_X', { noremap = true, silent = true, desc = 'カーソル前の文字を削除 (Ctrl+U)' })
+
+-- Visual mode: Ctrl+U で選択範囲を削除（レジスタに入れない）
+map('v', '<C-u>', '"_x', { noremap = true, silent = true, desc = '選択範囲を削除 (Ctrl+U)' })
+
+-- Shift+Del で一行削除（Ctrl+Uの拡張版）
+-- レジスタを汚染せず純粋な削除のみ
+
+-- Insert mode: Shift+Del で現在行を削除してInsert modeに戻る（レジスタに入れない）
+map('i', '<S-Del>', '<Esc>"_ddi', { noremap = true, silent = true, desc = '一行削除 (Shift+Del)' })
+
+-- Normal mode: Shift+Del で現在行を削除（レジスタに入れない）
+map('n', '<S-Del>', '"_dd', { noremap = true, silent = true, desc = '一行削除 (Shift+Del)' })
+
+-- Visual mode: Shift+Del で選択行を削除（レジスタに入れない）
+map('v', '<S-Del>', '"_d', { noremap = true, silent = true, desc = '選択行を削除 (Shift+Del)' })
 
 -- -- ============================================================================
 -- -- 12. その他便利機能
