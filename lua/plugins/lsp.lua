@@ -15,13 +15,14 @@ return {
       end,
     })
 
-    -- Neovim 0.11の新しいLSP設定方法
+    -- Neovim 0.11の新しいLSP設定方法（vim.lsp.config使用）
     -- LSPサーバーをインストールしている場合のみ有効化
-    local lspconfig = require('lspconfig')
 
     -- Lua
     if vim.fn.executable('lua-language-server') == 1 then
-      lspconfig.lua_ls.setup({
+      vim.lsp.config('lua_ls', {
+        cmd = { 'lua-language-server' },
+        root_markers = { '.luarc.json', '.luarc.jsonc', '.luacheckrc', '.stylua.toml', 'stylua.toml', 'selene.toml', 'selene.yml', '.git' },
         settings = {
           Lua = {
             diagnostics = {
@@ -30,26 +31,43 @@ return {
           }
         }
       })
+      vim.lsp.enable('lua_ls')
     end
 
     -- TypeScript/JavaScript
     if vim.fn.executable('typescript-language-server') == 1 then
-      lspconfig.ts_ls.setup({})
+      vim.lsp.config('ts_ls', {
+        cmd = { 'typescript-language-server', '--stdio' },
+        root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
+      })
+      vim.lsp.enable('ts_ls')
     end
 
     -- Go
     if vim.fn.executable('gopls') == 1 then
-      lspconfig.gopls.setup({})
+      vim.lsp.config('gopls', {
+        cmd = { 'gopls' },
+        root_markers = { 'go.mod', 'go.work', '.git' },
+      })
+      vim.lsp.enable('gopls')
     end
 
     -- Ruby
     if vim.fn.executable('ruby-lsp') == 1 then
-      lspconfig.ruby_lsp.setup({})
+      vim.lsp.config('ruby_lsp', {
+        cmd = { 'ruby-lsp' },
+        root_markers = { 'Gemfile', '.git' },
+      })
+      vim.lsp.enable('ruby_lsp')
     end
 
     -- Python
     if vim.fn.executable('pyright') == 1 then
-      lspconfig.pyright.setup({})
+      vim.lsp.config('pyright', {
+        cmd = { 'pyright-langserver', '--stdio' },
+        root_markers = { 'pyproject.toml', 'setup.py', 'setup.cfg', 'requirements.txt', 'Pipfile', '.git' },
+      })
+      vim.lsp.enable('pyright')
     end
   end
 }

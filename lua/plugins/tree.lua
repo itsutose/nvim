@@ -37,6 +37,30 @@ return {
           resize_window = false,  -- ウィンドウサイズを変更しない
         },
       },
+      -- キーマップ設定
+      on_attach = function(bufnr)
+        local api = require('nvim-tree.api')
+
+        local function opts(desc)
+          return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+        end
+
+        -- デフォルトのキーマップを使用
+        api.config.mappings.default_on_attach(bufnr)
+
+        -- cd: ディレクトリをルートとして設定（そのディレクトリに移動）
+        vim.keymap.set('n', 'cd', api.tree.change_root_to_node, opts('CD'))
+
+        -- Enter / o: ディレクトリを開く/閉じる、ファイルを開く
+        vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
+        vim.keymap.set('n', 'o', api.node.open.edit, opts('Open'))
+
+        -- u: 親ディレクトリに戻る（cd upの意味）
+        vim.keymap.set('n', 'u', api.tree.change_root_to_parent, opts('Up'))
+
+        -- -: 親ディレクトリに戻る（代替キー）
+        vim.keymap.set('n', '-', api.tree.change_root_to_parent, opts('Up'))
+      end,
     })
   end
 }
