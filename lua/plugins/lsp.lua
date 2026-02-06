@@ -46,5 +46,10 @@ return {
     if vim.fn.executable('ruby-lsp') == 1 then
       lspconfig.ruby_lsp.setup({})
     end
+
+    -- Python
+    if vim.fn.executable('pyright') == 1 then
+      lspconfig.pyright.setup({})
+    end
   end
 }

@@ -21,5 +21,7 @@ return {
   keys = {
     { "j", "<Plug>(accelerated_jk_gj)", mode = "n", desc = "Accelerated j" },
     { "k", "<Plug>(accelerated_jk_gk)", mode = "n", desc = "Accelerated k" },
+    { "<Down>", "<Plug>(accelerated_jk_gj)", mode = "n", desc = "Accelerated Down (Ctrl+j)" },
+    { "<Up>", "<Plug>(accelerated_jk_gk)", mode = "n", desc = "Accelerated Up (Ctrl+k)" },
   },
 }

@@ -22,7 +22,11 @@ return {
       heading = {
         enabled = true,
         sign = true,  -- サイン列にアイコン表示
-        icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },  -- 見出しアイコン
+        -- icons = { "󰲡 ", "󰲣 ", "󰲥 ", "󰲧 ", "󰲩 ", "󰲫 " },  -- 見出しアイコン
+        -- icons = { "󰲠 ", "󰲢 ", "󰲤 ", "󰲦 ", "󰲨 ", "󰲪 " },
+        -- icons = { "# ", "## ", "### ", "#### ", "##### ", "###### " },
+        -- icons = { "▓ ", "▒ ", "░ ", "▪ ", "▫ ", "• " },
+        icons = { "▓ ", "▒ ", "░ ", "┃ ", "│ ", "╎ " },
         -- 見出しの背景色を設定
         backgrounds = {
           "RenderMarkdownH1Bg",
@@ -50,6 +54,12 @@ return {
         enabled = true,
         unchecked = { icon = "󰄱 " },  -- □
         checked = { icon = "󰱒 " },    -- ☑
+        custom = {
+          todo = { raw = '[-]', rendered = '◐ ', highlight = 'RenderMarkdownTodo' },
+          cancelled = { raw = '[/]', rendered = '✗ ', highlight = 'RenderMarkdownCancelled' },
+          important = { raw = '[!]', rendered = '⚠ ', highlight = 'RenderMarkdownImportant' },
+          question = { raw = '[?]', rendered = '？', highlight = 'RenderMarkdownQuestion' },
+        },
       },
 
       -- 箇条書きリストの設定
