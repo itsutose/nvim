@@ -7,7 +7,7 @@
 local map = vim.keymap.set
 
 -- ============================================================================
--- 1. モード切り替え（最重要）
+-- Normal mode への切り替え
 -- ============================================================================
 
 -- Ctrl+c で確実に Normal mode へ（日本語入力中でも動作）
@@ -23,7 +23,64 @@ map('v', '<C-c>', '<Esc>', {
   desc = 'Normal modeへ'
 })
 
--- -- ============================================================================
+-- ============================================================================
+-- Visual mode への切り替え
+-- ============================================================================
+-- Ctrl+V: Character-wise (文字選択)
+-- Ctrl+Shift+V: Line-wise (行選択)
+-- Option+Ctrl+V: Block-wise (矩形選択)
+
+-- Character-wise Visual mode (文字単位選択)
+map('i', '<C-v>', '<Esc>v', {
+  noremap = true,
+  silent = true,
+  desc = 'Insert→Visual mode（文字選択）'
+})
+map('n', '<C-v>', 'v', {
+  noremap = true,
+  silent = true,
+  desc = 'Visual mode（文字選択）'
+})
+
+-- shiftだけはうまくいかなかったのでコメントアウト
+-- -- Line-wise Visual mode (行単位選択)
+-- map('i', '<C-S-v>', '<Esc>V', {
+--   noremap = true,
+--   silent = true,
+--   desc = 'Insert→Visual mode（行選択）'
+-- })
+-- map('n', '<C-S-v>', 'V', {
+--   noremap = true,
+--   silent = true,
+--   desc = 'Visual mode（行選択）'
+-- })
+
+-- Block-wise Visual mode (矩形選択) - Option+Ctrl+V
+map('i', '<M-C-v>', '<Esc><C-v>', {
+  noremap = true,
+  silent = true,
+  desc = 'Insert→Visual block mode（矩形選択）'
+})
+map('n', '<M-C-v>', '<C-v>', {
+  noremap = true,
+  silent = true,
+  desc = 'Visual block mode（矩形選択）'
+})
+
+-- ============================================================================
+-- Insert mode への切り替え
+-- ============================================================================
+
+-- Visual modeから Insert modeへ（選択解除して入力開始）
+map('v', 'i', '<Esc>i', { noremap = true, desc = 'Visual→Insert i' })
+
+-- Visual modeから Insert modeへ（選択解除して入力開始）
+map('v', 'o', '<Esc>o', { noremap = true, desc = 'Visual→Insert o' })
+
+-- Visual modeから Insert modeへ（選択解除して入力開始）
+map('v', 'a', '<Esc>a', { noremap = true, desc = 'Visual→Insert a' })
+
+-- ============================================================================
 -- -- 2. 行頭・行末移動
 -- -- ============================================================================
 
@@ -60,13 +117,6 @@ map('v', '<C-c>', '<Esc>', {
 -- -- map('i', '<C-h>', '<BS>', { noremap = true, desc = 'Backspace' })
 -- -- map('i', '<C-d>', '<Del>', { noremap = true, desc = 'Delete' })
 -- -- 注: Ctrl+hは行頭移動と衝突するのでコメントアウト
-
--- -- ============================================================================
--- -- 4. Visual mode 拡張
--- -- ============================================================================
-
--- -- Visual modeから Insert modeへ（選択解除して入力開始）
--- map('v', 'a', '<Esc>i', { noremap = true, desc = 'Visual→Insert mode' })
 
 -- -- ============================================================================
 -- -- 5. Normal mode 便利機能
