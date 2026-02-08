@@ -238,8 +238,20 @@ map('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true, desc = '
 -- Normal/Visual modeでも削除として機能するように設定
 -- 全ての削除操作でブラックホールレジスタ("_)を使用し、レジスタを汚染しない
 
--- Normal mode: backspaceで前の文字を削除（レジスタに入れない）
-map('n', '<BS>', '"_X', { noremap = true, silent = true, desc = 'カーソル前の文字を削除 (right_ctrl+u)' })
+-- Normal mode: backspaceで削除（行頭なら改行削除、それ以外は前の文字を削除）
+map('n', '<BS>', function()
+  local col = vim.fn.col('.')
+  if col == 1 then
+    -- 行頭にいる場合は改行を削除（前の行と結合、空白なし）
+    -- 1行目でなければ実行
+    if vim.fn.line('.') > 1 then
+      vim.cmd('normal! kgJ')
+    end
+  else
+    -- 行頭以外は前の文字を削除
+    vim.cmd('normal! "_X')
+  end
+end, { noremap = true, silent = true, desc = 'カーソル前の文字を削除（行頭なら改行削除）' })
 
 -- Visual mode: backspaceで選択範囲を削除（レジスタに入れない）
 map('v', '<BS>', '"_x', { noremap = true, silent = true, desc = '選択範囲を削除 (right_ctrl+u)' })
@@ -251,8 +263,20 @@ map('v', '<BS>', '"_x', { noremap = true, silent = true, desc = '選択範囲を
 -- Insert mode: Ctrl+U で1文字削除（Backspace相当）
 map('i', '<C-u>', '<BS>', { noremap = true, silent = true, desc = '1文字削除 (Ctrl+U)' })
 
--- Normal mode: Ctrl+U でカーソル前の文字を削除（レジスタに入れない）
-map('n', '<C-u>', '"_X', { noremap = true, silent = true, desc = 'カーソル前の文字を削除 (Ctrl+U)' })
+-- Normal mode: Ctrl+U で削除（行頭なら改行削除、それ以外は前の文字を削除）
+map('n', '<C-u>', function()
+  local col = vim.fn.col('.')
+  if col == 1 then
+    -- 行頭にいる場合は改行を削除（前の行と結合、空白なし）
+    -- 1行目でなければ実行
+    if vim.fn.line('.') > 1 then
+      vim.cmd('normal! kgJ')
+    end
+  else
+    -- 行頭以外は前の文字を削除
+    vim.cmd('normal! "_X')
+  end
+end, { noremap = true, silent = true, desc = 'カーソル前の文字を削除（行頭なら改行削除）' })
 
 -- Visual mode: Ctrl+U で選択範囲を削除（レジスタに入れない）
 map('v', '<C-u>', '"_x', { noremap = true, silent = true, desc = '選択範囲を削除 (Ctrl+U)' })
