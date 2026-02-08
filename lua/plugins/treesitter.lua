@@ -1,19 +1,45 @@
+-- Treesitter設定（Neovim 0.11対応）
 return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  lazy = false,
+  'nvim-treesitter/nvim-treesitter',
+  lazy = false,  -- nvim-treesitterは遅延読み込み不可
+  build = ':TSUpdate',
   config = function()
-    -- よく使う言語のパーサーをインストール
-    local languages = { 'lua', 'vim', 'vimdoc', 'python', 'javascript', 'typescript', 'go', 'ruby', 'markdown', 'bash', 'json', 'yaml' }
+    -- 基本設定
+    require'nvim-treesitter'.setup {
+      install_dir = vim.fn.stdpath('data') .. '/site'
+    }
 
-    -- パーサーがインストールされているか確認し、なければインストール
-    for _, lang in ipairs(languages) do
-      if not vim.treesitter.language.require_language(lang, nil, true) then
-        vim.cmd('TSInstall ' .. lang)
-      end
-    end
+    -- 必要なパーサーをインストール
+    require'nvim-treesitter'.install {
+      'python',
+      'lua',
+      'vim',
+      'markdown',
+      'bash',
+      'json',
+      'typescript',
+      'javascript',
+      'go',
+      'ruby'
+    }
 
-    -- Markdown拡張子の登録
-    vim.treesitter.language.register('markdown', 'md')
+    -- ファイルタイプごとにTreesitterハイライトを有効化
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = {
+        'python',
+        'lua',
+        'vim',
+        'markdown',
+        'bash',
+        'json',
+        'typescript',
+        'javascript',
+        'go',
+        'ruby'
+      },
+      callback = function()
+        vim.treesitter.start()
+      end,
+    })
   end
 }

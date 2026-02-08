@@ -391,6 +391,58 @@ map('n', '<leader>t0', '<cmd>colorscheme ayu-dark<cr>', {
   desc = 'Ayu（シンプル）'
 })
 
+map('n', '<leader>tg', '<cmd>colorscheme gruvbox<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Gruvbox（Python向け・カラフル）'
+})
+
+-- ============================================================================
+-- Python向けカラースキーム
+-- ============================================================================
+
+map('n', '<leader>td', '<cmd>colorscheme tokyodark<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'TokyoDark'
+})
+
+map('n', '<leader>tt', '<cmd>colorscheme tokyonight-night<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Tokyo Night (Python向け・推奨)'
+})
+
+map('n', '<leader>tn', '<cmd>colorscheme nordic<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Nordic'
+})
+
+map('n', '<leader>tm', '<cmd>colorscheme material<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Material'
+})
+
+map('n', '<leader>te', '<cmd>colorscheme everforest<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Everforest'
+})
+
+map('n', '<leader>tr', '<cmd>colorscheme rose-pine<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Rose Pine'
+})
+
+map('n', '<leader>tk', '<cmd>colorscheme kanagawa<cr>', {
+  noremap = true,
+  silent = true,
+  desc = 'Kanagawa'
+})
+
 -- ============================================================================
 -- 14. スマート検索（/と*の統合）
 -- ============================================================================
