@@ -78,3 +78,13 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
     end)
   end,
 })
+
+-----------------------------------------
+-- デフォルトカラースキーム
+-----------------------------------------
+-- Neovim起動完了後にカラースキームを適用
+vim.api.nvim_create_autocmd("VimEnter", {
+  callback = function()
+    vim.cmd.colorscheme("catppuccin")
+  end,
+})

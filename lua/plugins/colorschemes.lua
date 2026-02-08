@@ -230,4 +230,62 @@ return {
       })
     end,
   },
+
+  -- Carbonfox（炭のような黒）
+  {
+    "EdenEast/nightfox.nvim",
+    lazy = false,
+    priority = 1000,
+  },
+
+  -- One Dark（暗めのバランス型）
+  {
+    "navarasu/onedark.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('onedark').setup({
+        style = 'darker',
+      })
+    end
+  },
+
+  -- Monokai Pro（Sublime Text風）
+  {
+    "loctvl842/monokai-pro.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("monokai-pro").setup()
+    end
+  },
+
+  -- Sonokai（Monokai進化版）
+  {
+    "sainnhe/sonokai",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.g.sonokai_style = 'andromeda'  -- default, atlantis, andromeda, shusia, maia, espresso
+    end
+  },
+
+  -- VSCode Dark+（VSCode再現）
+  {
+    "Mofiqul/vscode.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require('vscode').setup({
+        style = 'dark'
+      })
+    end
+  },
+
+  -- Ayu（シンプルモダン）
+  {
+    "Shatur/neovim-ayu",
+    lazy = false,
+    priority = 1000,
+  },
 }

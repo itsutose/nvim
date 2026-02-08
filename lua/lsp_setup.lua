@@ -46,7 +46,6 @@ if vim.fn.executable('pyright-langserver') == 1 then
               }
             },
           })
-          vim.notify('Pyright started', vim.log.levels.INFO)
         end
       end
     end,
