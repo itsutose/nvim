@@ -402,6 +402,44 @@ map('n', '<leader>/', '/', {
 })
 
 -- ============================================================================
+-- 15. ファイルパス関連
+-- ============================================================================
+-- ファイルパスをクリップボードにコピー
+
+-- 相対パスをコピー
+map('n', '<leader>yp', function()
+  local path = vim.fn.expand('%:.')
+  vim.fn.setreg('+', path)
+  print('Copied relative path: ' .. path)
+end, {
+  noremap = true,
+  silent = false,
+  desc = '相対パスをコピー'
+})
+
+-- 絶対パスをコピー
+map('n', '<leader>yP', function()
+  local path = vim.fn.expand('%:p')
+  vim.fn.setreg('+', path)
+  print('Copied absolute path: ' .. path)
+end, {
+  noremap = true,
+  silent = false,
+  desc = '絶対パスをコピー'
+})
+
+-- ファイル名のみをコピー
+map('n', '<leader>yf', function()
+  local path = vim.fn.expand('%:t')
+  vim.fn.setreg('+', path)
+  print('Copied filename: ' .. path)
+end, {
+  noremap = true,
+  silent = false,
+  desc = 'ファイル名をコピー'
+})
+
+-- ============================================================================
 -- End of Keymaps
 -- ============================================================================
 
