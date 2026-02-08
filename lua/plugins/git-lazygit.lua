@@ -8,6 +8,19 @@ return {
     { "<leader>gg", "<cmd>LazyGit<cr>", desc = "LazyGit: 開く" },
     -- Space + gf でカレントファイルの履歴を開く
     { "<leader>gf", "<cmd>LazyGitCurrentFile<cr>", desc = "LazyGit: ファイル履歴" },
+    -- Space + gr でlazygitを再起動（フリーズ時の回避策）
+    {
+      "<leader>gr",
+      function()
+        -- lazygitウィンドウを閉じる
+        vim.cmd('close')
+        -- 少し待ってから再度開く
+        vim.defer_fn(function()
+          vim.cmd('LazyGit')
+        end, 100)
+      end,
+      desc = "LazyGit: 再起動"
+    },
   },
   config = function()
     -- lazygitの設定
@@ -17,11 +30,20 @@ return {
     vim.g.lazygit_floating_window_use_plenary = 1 -- plenaryを使用
     vim.g.lazygit_use_neovim_remote = 1 -- Neovimとの連携を有効化
 
-    -- lazygit起動時に自動でターミナルモードに入る
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "lazygit",
+    -- lazygit起動時に確実にターミナルモードに入る
+    -- 複数のイベントで対処（フォーカス問題の根本的解決）
+    vim.api.nvim_create_autocmd({"FileType", "TermOpen", "BufEnter"}, {
+      pattern = "*lazygit*",
       callback = function()
-        vim.cmd("startinsert")
+        -- lazygitバッファの場合のみ
+        if vim.bo.filetype == "lazygit" or vim.api.nvim_buf_get_name(0):match("lazygit") then
+          -- 少し遅延させて確実にターミナルモードに入る
+          vim.schedule(function()
+            if vim.api.nvim_get_mode().mode ~= "t" then
+              vim.cmd("startinsert")
+            end
+          end)
+        end
       end,
     })
 
@@ -31,6 +53,15 @@ return {
       pattern = "*lazygit*",
       callback = function()
         vim.keymap.set('t', '<Esc>', '<Esc>', { buffer = true, nowait = true })
+        -- Ctrl-r でlazygitを再起動（UIフリーズ時の対処）
+        vim.keymap.set('t', '<C-r>', function()
+          -- lazygitウィンドウを閉じる
+          vim.cmd('close')
+          -- 少し待ってから再度開く
+          vim.defer_fn(function()
+            vim.cmd('LazyGit')
+          end, 100)
+        end, { buffer = true, desc = "LazyGit: 再起動" })
       end,
     })
   end
