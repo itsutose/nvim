@@ -148,14 +148,31 @@ map('v', 'a', '<Esc>a', { noremap = true, desc = 'Visual→Insert a' })
 -- map('n', '<Leader>ws', '<C-w>s', { noremap = true, desc = '水平分割' })
 -- map('n', '<Leader>wv', '<C-w>v', { noremap = true, desc = '垂直分割' })
 
--- -- ============================================================================
--- -- 7. バッファ・タブ操作
--- -- ============================================================================
+-- ============================================================================
+-- 7. バッファ・タブ操作（bufferline.nvim）
+-- ============================================================================
 
--- -- バッファ移動
--- map('n', '<Leader>bn', ':bnext<CR>', { noremap = true, silent = true, desc = '次のバッファ' })
--- map('n', '<Leader>bp', ':bprevious<CR>', { noremap = true, silent = true, desc = '前のバッファ' })
--- map('n', '<Leader>bd', ':bdelete<CR>', { noremap = true, silent = true, desc = 'バッファを閉じる' })
+-- バッファ移動（Right_Cmd+J/; → Karabiner → Ghostty → エスケープシーケンス）
+-- 実際のシーケンス: J=^[[1;3P, ;=^[[1;3Q (Alt+F1, Alt+F2相当)
+map('n', '<M-F1>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true, desc = '前のバッファ (Right_Cmd+J)' })
+map('n', '<M-F2>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true, desc = '次のバッファ (Right_Cmd+;)' })
+
+-- バッファ移動（補助: Shift+Tab / Tab）
+map('n', '<S-Tab>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true, desc = '前のバッファ (Shift+Tab)' })
+map('n', '<Tab>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true, desc = '次のバッファ (Tab)' })
+
+-- バッファの順序を移動（Ctrl+Shift+Tab / Ctrl+Tab）
+map('n', '<C-S-Tab>', ':BufferLineMovePrev<CR>', { noremap = true, silent = true, desc = 'バッファを左に移動' })
+map('n', '<C-Tab>', ':BufferLineMoveNext<CR>', { noremap = true, silent = true, desc = 'バッファを右に移動' })
+
+-- カーソル位置の戻る/進む（Right_Cmd+K/L → Alt+F3, Alt+F4相当）
+-- 実際のシーケンス: K=^[[1;3R, L=^[[1;3S
+map('n', '<M-F3>', '<C-o>', { noremap = true, silent = true, desc = 'カーソル位置を戻る (Right_Cmd+K)' })
+map('n', '<M-F4>', '<C-i>', { noremap = true, silent = true, desc = 'カーソル位置を進む (Right_Cmd+L)' })
+
+-- バッファを閉じる（Cmd+W → F16経由）
+-- GhosttyでCmd+W → F16に変換
+map('n', '<F16>', ':bdelete<CR>', { noremap = true, silent = true, desc = 'バッファを閉じる (Cmd+W)' })
 
 -- バッファピッカー（番号で選択）
 map('n', '<leader>bp', ':BufferLinePick<CR>', { noremap = true, silent = true, desc = 'バッファをピックして移動' })
