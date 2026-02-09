@@ -157,11 +157,18 @@ map('v', 'a', '<Esc>a', { noremap = true, desc = 'Visual→Insert a' })
 -- map('n', '<Leader>bp', ':bprevious<CR>', { noremap = true, silent = true, desc = '前のバッファ' })
 -- map('n', '<Leader>bd', ':bdelete<CR>', { noremap = true, silent = true, desc = 'バッファを閉じる' })
 
--- -- タブ移動
--- map('n', '<Leader>tn', ':tabnext<CR>', { noremap = true, silent = true, desc = '次のタブ' })
--- map('n', '<Leader>tp', ':tabprevious<CR>', { noremap = true, silent = true, desc = '前のタブ' })
--- map('n', '<Leader>tc', ':tabclose<CR>', { noremap = true, silent = true, desc = 'タブを閉じる' })
--- map('n', '<Leader>to', ':tabonly<CR>', { noremap = true, silent = true, desc = '他のタブを全て閉じる' })
+-- バッファピッカー（番号で選択）
+map('n', '<leader>bp', ':BufferLinePick<CR>', { noremap = true, silent = true, desc = 'バッファをピックして移動' })
+
+-- バッファを閉じる（ピッカー）
+map('n', '<leader>bc', ':BufferLinePickClose<CR>', { noremap = true, silent = true, desc = 'バッファをピックして閉じる' })
+
+-- 他のバッファを全て閉じる
+map('n', '<leader>bo', ':BufferLineCloseOthers<CR>', { noremap = true, silent = true, desc = '他のバッファを全て閉じる' })
+
+-- 左右のバッファを閉じる
+map('n', '<leader>bh', ':BufferLineCloseLeft<CR>', { noremap = true, silent = true, desc = '左側のバッファを全て閉じる' })
+map('n', '<leader>bl', ':BufferLineCloseRight<CR>', { noremap = true, silent = true, desc = '右側のバッファを全て閉じる' })
 
 -- ============================================================================
 -- 8. インデント操作（Insert mode中も可能に）
