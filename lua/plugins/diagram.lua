@@ -1,0 +1,31 @@
+-- -- ============================================================================
+-- -- diagram.nvim - Mermaid/PlantUML/D2をターミナルで表示
+-- -- ============================================================================
+-- -- Markdownのmermaidコードブロックを画像としてレンダリング
+-- -- 要件: mermaid-cli (mmdc), ImageMagick, image.nvim
+--
+-- return {
+--   "3rd/diagram.nvim",
+--   dependencies = {
+--     "3rd/image.nvim",
+--   },
+--   ft = { "markdown" },
+--   config = function()
+--     require("diagram").setup({
+--       integrations = {
+--         require("diagram.integrations.markdown"),
+--       },
+--       renderer_options = {
+--         mermaid = {
+--           background = "transparent",
+--           theme = "dark",
+--           scale = 2,
+--         },
+--         plantuml = {
+--           charset = "utf-8",
+--         },
+--       },
+--     })
+--   end,
+-- }
+--

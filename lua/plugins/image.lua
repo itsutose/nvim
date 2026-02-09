@@ -1,0 +1,83 @@
+-- -- ============================================================================
+-- -- image.nvim - ターミナルで画像を表示
+-- -- ============================================================================
+-- -- Kitty Graphics Protocolを使用してNeovim内で画像を表示
+-- -- diagram.nvimの依存関係として必要
+--
+-- -- サイズ設定（グローバルで保持）
+-- vim.g.image_scale = vim.g.image_scale or 1.0
+--
+-- local function get_scaled_size()
+--   local scale = vim.g.image_scale
+--   return {
+--     max_width = math.floor(160 * scale),
+--     max_height = math.floor(60 * scale),
+--   }
+-- end
+--
+-- local function setup_image()
+--   local size = get_scaled_size()
+--   require("image").setup({
+--     backend = "kitty",
+--     processor = "magick_cli",
+--     integrations = {
+--       markdown = {
+--         enabled = true,
+--         clear_in_insert_mode = false,
+--         only_render_image_at_cursor = false,
+--         floating_windows = false,
+--       },
+--     },
+--     max_width = size.max_width,
+--     max_height = size.max_height,
+--     max_height_window_percentage = 50,
+--     max_width_window_percentage = 80,
+--     window_overlap_clear_enabled = true,
+--     window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+--   })
+-- end
+--
+-- return {
+--   "3rd/image.nvim",
+--   build = false,
+--   lazy = false,
+--   config = function()
+--     setup_image()
+--
+--     -- サイズ変更コマンド
+--     vim.api.nvim_create_user_command("ImageScale", function(opts)
+--       local scale = tonumber(opts.args)
+--       if scale and scale > 0 then
+--         vim.g.image_scale = scale
+--         vim.cmd("edit") -- バッファ再読み込みで反映
+--         vim.notify("Image scale: " .. scale, vim.log.levels.INFO)
+--       else
+--         vim.notify("Current scale: " .. vim.g.image_scale, vim.log.levels.INFO)
+--       end
+--     end, { nargs = "?" })
+--
+--     -- キーマップ（Markdownファイル用）
+--     vim.api.nvim_create_autocmd("FileType", {
+--       pattern = "markdown",
+--       callback = function()
+--         vim.keymap.set("n", "<leader>i+", function()
+--           vim.g.image_scale = vim.g.image_scale * 1.2
+--           vim.cmd("edit")
+--           vim.notify("Image scale: " .. string.format("%.1f", vim.g.image_scale))
+--         end, { buffer = true, desc = "画像拡大" })
+--
+--         vim.keymap.set("n", "<leader>i-", function()
+--           vim.g.image_scale = vim.g.image_scale * 0.8
+--           vim.cmd("edit")
+--           vim.notify("Image scale: " .. string.format("%.1f", vim.g.image_scale))
+--         end, { buffer = true, desc = "画像縮小" })
+--
+--         vim.keymap.set("n", "<leader>i0", function()
+--           vim.g.image_scale = 1.0
+--           vim.cmd("edit")
+--           vim.notify("Image scale: 1.0")
+--         end, { buffer = true, desc = "画像サイズリセット" })
+--       end,
+--     })
+--   end,
+-- }
