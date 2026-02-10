@@ -24,11 +24,16 @@ return {
     vim.g.loaded_netrwPlugin = 1
 
     require("nvim-tree").setup({
-      -- 通知メッセージを簡潔に
+      -- 削除時はゴミ箱に移動（復元可能）
+      trash = {
+        cmd = "trash",  -- macOSのtrashコマンド
+      },
+      -- 確認ダイアログを有効化（安全のため）
       ui = {
         confirm = {
-          remove = false,  -- 削除確認を簡略化
-          trash = false,   -- ゴミ箱確認を簡略化
+          remove = true,   -- 削除確認を表示
+          trash = true,    -- ゴミ箱移動確認を表示
+          default_yes = false,  -- デフォルトはNo（安全側）
         },
       },
       -- ファイル操作後の動作
@@ -48,8 +53,8 @@ return {
         -- デフォルトのキーマップを使用
         api.config.mappings.default_on_attach(bufnr)
 
-        -- cd: ディレクトリをルートとして設定（そのディレクトリに移動）
-        vim.keymap.set('n', 'cd', api.tree.change_root_to_node, opts('CD'))
+        -- .: ディレクトリをルートとして設定（neo-treeと統一）
+        vim.keymap.set('n', '.', api.tree.change_root_to_node, opts('Set Root'))
 
         -- Enter / o: ディレクトリを開く/閉じる、ファイルを開く
         vim.keymap.set('n', '<CR>', api.node.open.edit, opts('Open'))
