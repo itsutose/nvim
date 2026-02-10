@@ -3,19 +3,26 @@ return {
   tag = '0.1.8',
   dependencies = {
     'nvim-lua/plenary.nvim',
+    {
+      'nvim-telescope/telescope-live-grep-args.nvim',
+      version = '^1.0.0',
+    },
   },
   keys = {
     { "<leader>p", "<cmd>Telescope find_files<cr>", desc = "Telescope find_files" },
-    { "<leader>g", "<cmd>Telescope live_grep<cr>", desc = "Telescope live_grep" },
+    { "<leader>g", function()
+      require('telescope').extensions.live_grep_args.live_grep_args()
+    end, desc = "Live grep (with args)" },
   },
   config = function()
-    require('telescope').setup({
+    local telescope = require('telescope')
+    local lga_actions = require('telescope-live-grep-args.actions')
+
+    telescope.setup({
       defaults = {
-        -- シンプルなプレビュー設定
         preview = {
           treesitter = false,
         },
-        -- ripgrepのパスを明示的に指定（aliasを回避）
         vimgrep_arguments = {
           '/opt/homebrew/bin/rg',
           '--color=never',
@@ -26,6 +33,20 @@ return {
           '--smart-case',
         },
       },
+      extensions = {
+        live_grep_args = {
+          auto_quoting = true,
+          mappings = {
+            i = {
+              ["<C-k>"] = lga_actions.quote_prompt(),
+              ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+              ["<C-t>"] = lga_actions.quote_prompt({ postfix = " -t " }),
+            },
+          },
+        },
+      },
     })
+
+    telescope.load_extension('live_grep_args')
   end,
 }
