@@ -38,7 +38,7 @@ return {
         'ruby'
       },
       callback = function()
-        vim.treesitter.start()
+        pcall(vim.treesitter.start)  -- パーサーがない場合のエラーを無視
       end,
     })
   end
