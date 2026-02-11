@@ -39,6 +39,11 @@ return {
     })
 
     require("nvim-tree").setup({
+      -- ファイルを開いた時にツリーをその場所に追従させる
+      update_focused_file = {
+        enable = true,
+        update_root = true,  -- ツリーのrootも追従して変更する
+      },
       -- 削除時はゴミ箱に移動（復元可能）
       trash = {
         cmd = "trash",  -- macOSのtrashコマンド
