@@ -1,4 +1,5 @@
 require("base")
+require("filetypes")  -- ファイルタイプ固有設定（wrap等）
 require("keymaps")
 require("ime")  -- IME自動切り替え: Normal/Visualモードで英語化
 require("autosave")
