@@ -19,18 +19,14 @@ return {
     require("conform").setup({
       formatters_by_ft = {
         lua = { "stylua" },
+        python = { "ruff_organize_imports", "ruff_format" },
         go = { "goimports", "gofmt" },
         javascriptreact = { "prettierd" },
         typescriptreact = { "prettierd" },
         javascript = { "prettierd" },
         typescript = { "prettierd" },
         json = { "prettierd" },
-        sql = {
-          {
-            cmd = { "sql-formatter" },
-            args = { "-i" },
-          },
-        },
+        sql = { "sql_formatter" },
         ["_"] = { "trim_whitespace" },
       },
       default_format_opts = {

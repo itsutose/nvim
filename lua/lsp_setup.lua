@@ -20,7 +20,33 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- Python
+-- Python (Ruff) - リント + auto-fix
+if vim.fn.executable('ruff') == 1 then
+  vim.api.nvim_create_autocmd({'FileType', 'BufReadPost'}, {
+    pattern = {'python', '*.py'},
+    callback = function()
+      if vim.bo.filetype == 'python' then
+        local clients = vim.lsp.get_clients({ bufnr = 0, name = 'ruff' })
+        if #clients == 0 then
+          local root_files = { 'pyproject.toml', 'ruff.toml', '.ruff.toml', 'setup.py', '.git' }
+          local root_dir = vim.fs.dirname(vim.fs.find(root_files, { upward = true })[1]) or vim.fn.getcwd()
+
+          vim.lsp.start({
+            name = 'ruff',
+            cmd = { 'ruff', 'server' },
+            root_dir = root_dir,
+            settings = {
+              -- ruff server の設定
+              -- https://docs.astral.sh/ruff/editors/settings/
+            },
+          })
+        end
+      end
+    end,
+  })
+end
+
+-- Python (Pyright) - 型チェック + 補完
 if vim.fn.executable('pyright-langserver') == 1 then
   vim.api.nvim_create_autocmd({'FileType', 'BufReadPost'}, {
     pattern = {'python', '*.py'},
