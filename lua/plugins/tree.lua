@@ -13,15 +13,30 @@
 
 return {
   "nvim-tree/nvim-tree.lua",
-  event = "VeryLazy",
+  lazy = false,  -- 起動時に即座に読み込む（netrwの代替として常に必要）
   dependencies = {"nvim-tree/nvim-web-devicons"},
   keys = {
     { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "TreeToggle" },
   },
   config = function()
-    -- disable netrw at the very start of your init.lua
-    vim.g.loaded_netrw = 1
-    vim.g.loaded_netrwPlugin = 1
+    -- netrw無効化はbase.luaの先頭で実施済み（VeryLazyより前に必要）
+
+    -- 起動時にnvim-treeを自動で開く
+    vim.api.nvim_create_autocmd("VimEnter", {
+      callback = function(data)
+        -- ディレクトリを開いた場合
+        local is_directory = vim.fn.isdirectory(data.file) == 1
+        -- 引数なしで起動した場合
+        local no_args = data.file == ""
+
+        if is_directory or no_args then
+          if is_directory then
+            vim.cmd.cd(data.file)
+          end
+          require("nvim-tree.api").tree.open()
+        end
+      end,
+    })
 
     require("nvim-tree").setup({
       -- 削除時はゴミ箱に移動（復元可能）

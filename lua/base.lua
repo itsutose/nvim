@@ -1,3 +1,8 @@
+-- netrwを完全無効化（永久削除しかできないため危険）
+-- tree.luaのVeryLazy読み込みより前に実行する必要がある
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 vim.o.encoding = 'utf-8'
 vim.o.number = true
 
