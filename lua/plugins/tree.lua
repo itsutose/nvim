@@ -53,6 +53,35 @@ return {
         -- デフォルトのキーマップを使用
         api.config.mappings.default_on_attach(bufnr)
 
+        -- =====================================================
+        -- 安全化: 永久削除(rm -rf)を全て無効化し、trashに統一
+        -- =====================================================
+        -- プレビュー中のバッファを先に閉じてからtrashする（window id無効エラー回避）
+        local function safe_trash()
+          local node = api.tree.get_node_under_cursor()
+          if node and node.absolute_path then
+            for _, win in ipairs(vim.api.nvim_list_wins()) do
+              if vim.api.nvim_win_is_valid(win) then
+                local buf = vim.api.nvim_win_get_buf(win)
+                if vim.api.nvim_buf_get_name(buf) == node.absolute_path then
+                  pcall(vim.api.nvim_buf_delete, buf, { force = true })
+                  break
+                end
+              end
+            end
+          end
+          api.fs.trash()
+        end
+
+        -- d: デフォルトはapi.fs.remove(永久削除) → trashに差し替え
+        vim.keymap.set('n', 'd', safe_trash, opts('Trash'))
+        -- D: 元からtrashなのでそのまま（明示的に再設定）
+        vim.keymap.set('n', 'D', safe_trash, opts('Trash'))
+        -- <Del>: デフォルトはapi.fs.remove(永久削除) → 無効化
+        vim.keymap.set('n', '<Del>', '', opts('(disabled)'))
+        -- bd: デフォルトはapi.marks.bulk.delete(一括永久削除) → bulk.trashに差し替え
+        vim.keymap.set('n', 'bd', api.marks.bulk.trash, opts('Trash Bookmarked'))
+
         -- .: ディレクトリをルートとして設定（neo-treeと統一）
         vim.keymap.set('n', '.', api.tree.change_root_to_node, opts('Set Root'))
 
