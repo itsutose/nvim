@@ -154,6 +154,10 @@ map('v', 'a', '<Esc>a', { noremap = true, desc = 'Visual→Insert a' })
 
 -- バッファ移動（Right_Cmd+J/; → Karabiner → Ghostty → エスケープシーケンス）
 -- 実際のシーケンス: J=^[[1;3P, ;=^[[1;3Q (Alt+F1, Alt+F2相当)
+-- NOTE: F1がヘルプと競合するため、先にF1のデフォルト動作を無効化
+map('n', '<F1>', '<Nop>', { noremap = true, silent = true, desc = 'F1無効化（ヘルプ競合回避）' })
+map('i', '<F1>', '<Nop>', { noremap = true, silent = true, desc = 'F1無効化（ヘルプ競合回避）' })
+map('v', '<F1>', '<Nop>', { noremap = true, silent = true, desc = 'F1無効化（ヘルプ競合回避）' })
 map('n', '<M-F1>', ':BufferLineCyclePrev<CR>', { noremap = true, silent = true, desc = '前のバッファ (Right_Cmd+J)' })
 map('n', '<M-F2>', ':BufferLineCycleNext<CR>', { noremap = true, silent = true, desc = '次のバッファ (Right_Cmd+;)' })
 
@@ -167,6 +171,10 @@ map('n', '<C-Tab>', ':BufferLineMoveNext<CR>', { noremap = true, silent = true, 
 
 -- カーソル位置の戻る/進む（Right_Cmd+K/L → Alt+F3, Alt+F4相当）
 -- 実際のシーケンス: K=^[[1;3R, L=^[[1;3S
+-- NOTE: F2-F4も競合回避のため無効化
+map('n', '<F2>', '<Nop>', { noremap = true, silent = true, desc = 'F2無効化' })
+map('n', '<F3>', '<Nop>', { noremap = true, silent = true, desc = 'F3無効化' })
+map('n', '<F4>', '<Nop>', { noremap = true, silent = true, desc = 'F4無効化' })
 map('n', '<M-F3>', '<C-o>', { noremap = true, silent = true, desc = 'カーソル位置を戻る (Right_Cmd+K)' })
 map('n', '<M-F4>', '<C-i>', { noremap = true, silent = true, desc = 'カーソル位置を進む (Right_Cmd+L)' })
 
