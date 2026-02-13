@@ -56,8 +56,10 @@ return {
     -- 垂直分割ターミナル
     map('n', '<leader>tv', '<cmd>ToggleTerm direction=vertical<cr>', { noremap = true, silent = true, desc = '垂直ターミナル' })
 
-    -- Terminal mode内での移動（Esc でNormal modeに）
+    -- Terminal mode内での操作（Esc でNormal modeに）
     map('t', '<Esc>', [[<C-\><C-n>]], opts)
+
+    -- Terminal mode内でのウインドウ移動
     map('t', '<C-h>', [[<Cmd>wincmd h<CR>]], opts)
     map('t', '<C-j>', [[<Cmd>wincmd j<CR>]], opts)
     map('t', '<C-k>', [[<Cmd>wincmd k<CR>]], opts)

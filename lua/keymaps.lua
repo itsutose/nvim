@@ -22,6 +22,11 @@ map('v', '<C-c>', '<Esc>', {
   silent = true,
   desc = 'Normal modeへ'
 })
+map('t', '<C-c>', [[<C-\><C-n>]], {
+  noremap = true,
+  silent = true,
+  desc = 'Terminal→Normal modeへ'
+})
 
 -- ============================================================================
 -- Visual mode への切り替え
@@ -40,6 +45,11 @@ map('n', '<C-v>', 'v', {
   noremap = true,
   silent = true,
   desc = 'Visual mode（文字選択）'
+})
+map('t', '<C-v>', [[<C-\><C-n>v]], {
+  noremap = true,
+  silent = true,
+  desc = 'Terminal→Visual mode（文字選択）'
 })
 
 -- shiftだけはうまくいかなかったのでコメントアウト
@@ -272,6 +282,7 @@ map('t', '<C-q>', '<C-\\><C-n>:q<CR>', { noremap = true, silent = true, desc = '
 
 -- Normal mode: backspaceで削除（行頭なら改行削除、それ以外は前の文字を削除）
 map('n', '<BS>', function()
+  if not vim.bo.modifiable then return end
   local col = vim.fn.col('.')
   if col == 1 then
     -- 行頭にいる場合は改行を削除（前の行と結合、空白なし）
@@ -297,6 +308,7 @@ map('i', '<C-u>', '<BS>', { noremap = true, silent = true, desc = '1文字削除
 
 -- Normal mode: Ctrl+U で削除（行頭なら改行削除、それ以外は前の文字を削除）
 map('n', '<C-u>', function()
+  if not vim.bo.modifiable then return end
   local col = vim.fn.col('.')
   if col == 1 then
     -- 行頭にいる場合は改行を削除（前の行と結合、空白なし）
@@ -320,7 +332,10 @@ map('v', '<C-u>', '"_x', { noremap = true, silent = true, desc = '選択範囲�
 map('i', '<S-Del>', '<Esc>"_ddi', { noremap = true, silent = true, desc = '一行削除 (Shift+Del)' })
 
 -- Normal mode: Shift+Del で現在行を削除（レジスタに入れない）
-map('n', '<S-Del>', '"_dd', { noremap = true, silent = true, desc = '一行削除 (Shift+Del)' })
+map('n', '<S-Del>', function()
+  if not vim.bo.modifiable then return end
+  vim.cmd('normal! "_dd')
+end, { noremap = true, silent = true, desc = '一行削除 (Shift+Del)' })
 
 -- Visual mode: Shift+Del で選択行を削除（レジスタに入れない）
 map('v', '<S-Del>', '"_d', { noremap = true, silent = true, desc = '選択行を削除 (Shift+Del)' })
