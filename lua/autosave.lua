@@ -4,6 +4,9 @@
 -- VSCodeのような自動保存機能
 -- カーソル停止から指定時間後に自動保存
 
+-- swapファイルを無効化（autosave + undofileで十分なため）
+vim.opt.swapfile = false
+
 -- カーソル停止からの待機時間（ミリ秒）
 vim.o.updatetime = 1000  -- 1秒（デフォルト: 4000ms）
 
