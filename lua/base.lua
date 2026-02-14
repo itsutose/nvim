@@ -31,6 +31,9 @@ vim.o.ttimeoutlen = 10
 
 vim.o.relativenumber = true
 
+-- 行頭←で前行末、行末→で次行頭に移動
+vim.o.whichwrap = 'b,s,h,l,<,>,[,]'
+
 -- コマンドライン高さ（メッセージがENTER待ちにならないように）
 vim.o.cmdheight = 2
 

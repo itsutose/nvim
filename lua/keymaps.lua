@@ -128,6 +128,10 @@ map('v', 'a', '<Esc>a', { noremap = true, desc = 'Visual→Insert a' })
 -- -- map('i', '<C-d>', '<Del>', { noremap = true, desc = 'Delete' })
 -- -- 注: Ctrl+hは行頭移動と衝突するのでコメントアウト
 
+-- Shift+Enter(Meta+Enter) で直下に空行を追加（Normal modeを維持）
+-- GhosttyがShift+Enter → \x1b\x0d (Meta+Enter) に変換
+map('n', '<M-CR>', 'o<Esc>', { noremap = true, silent = true, desc = '直下に空行追加' })
+
 -- -- ============================================================================
 -- -- 5. Normal mode 便利機能
 -- -- ============================================================================
