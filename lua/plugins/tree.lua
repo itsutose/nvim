@@ -39,6 +39,10 @@ return {
     })
 
     require("nvim-tree").setup({
+      -- ツリー表示設定
+      view = {
+        width = 25,  -- ツリーの幅を最小限に（ディレクトリ名・ファイル名が見える程度）
+      },
       -- ファイルを開いた時にツリーをその場所に追従させる
       update_focused_file = {
         enable = true,
