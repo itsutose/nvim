@@ -22,11 +22,6 @@ map('v', '<C-c>', '<Esc>', {
   silent = true,
   desc = 'Normal modeへ'
 })
-map('t', '<C-c>', [[<C-\><C-n>]], {
-  noremap = true,
-  silent = true,
-  desc = 'Terminal→Normal modeへ'
-})
 
 -- ============================================================================
 -- Visual mode への切り替え
