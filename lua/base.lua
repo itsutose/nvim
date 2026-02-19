@@ -29,7 +29,7 @@ vim.o.guicursor = 'n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50'
 vim.o.timeoutlen = 500
 vim.o.ttimeoutlen = 10
 
-vim.o.relativenumber = true
+vim.o.relativenumber = false
 
 -- 行頭←で前行末、行末→で次行頭に移動
 vim.o.whichwrap = 'b,s,h,l,<,>,[,]'
