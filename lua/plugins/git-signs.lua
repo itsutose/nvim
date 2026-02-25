@@ -1,7 +1,6 @@
 return {
   "lewis6991/gitsigns.nvim",
   event = { "BufReadPre", "BufNewFile" }, -- ファイルを開いたときに読み込み
-  lazy = false, -- 遅延読み込みを無効化（すぐにロード）
   config = function()
     require('gitsigns').setup({
       -- サイン列（行番号の左側）を非表示にする
@@ -62,6 +61,26 @@ return {
         -- テキストオブジェクト（変更箇所を選択）
         map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'Git変更箇所を選択' })
       end
+    })
+
+    -- nvim-treeプレビュー経由でファイルを開くとBufReadPostが再発火せず
+    -- gitsignsがattachされない問題のフォールバック
+    vim.api.nvim_create_autocmd("BufEnter", {
+      group = vim.api.nvim_create_augroup("gitsigns_attach_fallback", { clear = true }),
+      callback = function(args)
+        local bufnr = args.buf
+        if
+          not vim.b[bufnr].gitsigns_status_dict
+          and vim.bo[bufnr].buftype == ""
+          and vim.api.nvim_buf_get_name(bufnr) ~= ""
+        then
+          vim.schedule(function()
+            if vim.api.nvim_buf_is_valid(bufnr) then
+              require("gitsigns").attach(bufnr)
+            end
+          end)
+        end
+      end,
     })
   end
 }
