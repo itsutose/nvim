@@ -94,5 +94,27 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     vim.cmd.colorscheme("catppuccin")
+    -- プラグインのハイライト上書き後に透過を適用
+    vim.schedule(function()
+      vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+    end)
+  end,
+})
+
+-----------------------------------------
+-- 背景透過（Ghosttyのbackground-opacityを活かす）
+-----------------------------------------
+-- 手動でカラースキーム切替時にも透過を維持
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    vim.schedule(function()
+      vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
+      vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+    end)
   end,
 })
