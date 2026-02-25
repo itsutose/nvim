@@ -216,6 +216,23 @@ map('i', '<S-Tab>', '<C-d>', { noremap = true, desc = 'Insert中にインデン�
 map('v', '<', '<gv', { noremap = true, desc = 'インデント削除（選択維持）' })
 map('v', '>', '>gv', { noremap = true, desc = 'インデント追加（選択維持）' })
 
+-- ============================================================================
+-- Shift+J/K で行選択（デフォルト動作を上書き）
+-- ============================================================================
+
+-- Normal mode: Shift+J/K (または Shift+↓/↑) で Visual line mode に入って選択
+-- Karabiner: right_ctrl+j/k → ↓/↑ 変換のため、S-Down/S-Up も同様にマッピング
+map('n', '<S-j>', 'V', { noremap = true, desc = 'Shift+J: Visual line modeに入る' })
+map('n', '<S-k>', 'V', { noremap = true, desc = 'Shift+K: Visual line modeに入る' })
+map('n', '<S-Down>', 'V', { noremap = true, desc = 'Shift+↓: Visual line modeに入る' })
+map('n', '<S-Up>', 'V', { noremap = true, desc = 'Shift+↑: Visual line modeに入る' })
+
+-- Visual mode: Shift+J/K (または Shift+↓/↑) で選択を上下に拡張
+map('v', '<S-j>', 'j', { noremap = true, desc = 'Shift+J: 選択を下に拡張' })
+map('v', '<S-k>', 'k', { noremap = true, desc = 'Shift+K: 選択を上に拡張' })
+map('v', '<S-Down>', 'j', { noremap = true, desc = 'Shift+↓: 選択を下に拡張' })
+map('v', '<S-Up>', 'k', { noremap = true, desc = 'Shift+↑: 選択を上に拡張' })
+
 -- -- ============================================================================
 -- -- 9. Command mode 便利機能
 -- -- ============================================================================
