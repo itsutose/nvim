@@ -612,6 +612,27 @@ end, {
 })
 
 -- ============================================================================
+-- 18. 行の入れ替え（Option+↓/↑）
+-- ============================================================================
+-- IDEと同じくOption+↓↑で行を上下に移動（複数行選択時も対応）
+
+-- Normal mode: 1行移動
+map('n', '<M-Down>', ':move .+1<CR>', { noremap = true, silent = true, desc = '行を下に移動 (Option+↓)' })
+map('n', '<M-Up>', ':move .-2<CR>', { noremap = true, silent = true, desc = '行を上に移動 (Option+↑)' })
+map('n', '<M-j>', ':move .+1<CR>', { noremap = true, silent = true, desc = '行を下に移動 (Option+j)' })
+map('n', '<M-k>', ':move .-2<CR>', { noremap = true, silent = true, desc = '行を上に移動 (Option+k)' })
+
+-- Visual mode: 選択範囲をまとめて移動（選択維持）
+map('v', '<M-Down>', ":move '>+1<CR>gv", { noremap = true, silent = true, desc = '選択行を下に移動 (Option+↓)' })
+map('v', '<M-Up>', ":move '<-2<CR>gv", { noremap = true, silent = true, desc = '選択行を上に移動 (Option+↑)' })
+map('v', '<M-j>', ":move '>+1<CR>gv", { noremap = true, silent = true, desc = '選択行を下に移動 (Option+j)' })
+map('v', '<M-k>', ":move '<-2<CR>gv", { noremap = true, silent = true, desc = '選択行を上に移動 (Option+k)' })
+
+-- Insert mode: 挿入中でも行移動可能
+map('i', '<M-Down>', '<Esc>:move .+1<CR>gi', { noremap = true, silent = true, desc = '行を下に移動 (Option+↓)' })
+map('i', '<M-Up>', '<Esc>:move .-2<CR>gi', { noremap = true, silent = true, desc = '行を上に移動 (Option+↑)' })
+
+-- ============================================================================
 -- End of Keymaps
 -- ============================================================================
 
