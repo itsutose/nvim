@@ -12,7 +12,7 @@ return {
     local leap = require('leap')
 
     -- 手動でキーマップを設定
-    vim.keymap.set({'n', 'x', 'o'}, 's',  '<Plug>(leap-forward)')
+    vim.keymap.set({'n', 'x', 'o'}, 's',  '<Plug>(leap-anywhere)')
     vim.keymap.set({'n', 'x', 'o'}, 'S',  '<Plug>(leap-backward)')
     vim.keymap.set({'n', 'x', 'o'}, 'gs', '<Plug>(leap-from-window)')
 
