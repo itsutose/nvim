@@ -77,13 +77,13 @@ map('n', '<M-C-v>', '<C-v>', {
 -- ============================================================================
 
 -- Visual modeから Insert modeへ（選択解除して入力開始）
-map('v', 'i', '<Esc>i', { noremap = true, desc = 'Visual→Insert i' })
+-- map('v', 'i', '<Esc>i', { noremap = true, desc = 'Visual→Insert i' })
 
 -- Visual modeから Insert modeへ（選択解除して入力開始）
-map('v', 'o', '<Esc>o', { noremap = true, desc = 'Visual→Insert o' })
+-- map('v', 'o', '<Esc>o', { noremap = true, desc = 'Visual→Insert o' })
 
 -- Visual modeから Insert modeへ（選択解除して入力開始）
-map('v', 'a', '<Esc>a', { noremap = true, desc = 'Visual→Insert a' })
+-- map('v', 'a', '<Esc>a', { noremap = true, desc = 'Visual→Insert a' })
 
 -- ============================================================================
 -- -- 2. 行頭・行末移動
