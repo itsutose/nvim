@@ -70,6 +70,12 @@ return {
       on_attach = function(bufnr)
         local api = require('nvim-tree.api')
 
+        -- トラックパッドの横スクロールを無効化
+        vim.keymap.set('n', '<ScrollWheelLeft>', '<Nop>', { buffer = bufnr, silent = true })
+        vim.keymap.set('n', '<ScrollWheelRight>', '<Nop>', { buffer = bufnr, silent = true })
+        vim.keymap.set('n', '<S-ScrollWheelLeft>', '<Nop>', { buffer = bufnr, silent = true })
+        vim.keymap.set('n', '<S-ScrollWheelRight>', '<Nop>', { buffer = bufnr, silent = true })
+
         local function opts(desc)
           return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
         end
