@@ -70,15 +70,15 @@ return {
       on_attach = function(bufnr)
         local api = require('nvim-tree.api')
 
+        local function opts(desc)
+          return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+        end
+
         -- トラックパッドの横スクロールを無効化
         vim.keymap.set('n', '<ScrollWheelLeft>', '<Nop>', { buffer = bufnr, silent = true })
         vim.keymap.set('n', '<ScrollWheelRight>', '<Nop>', { buffer = bufnr, silent = true })
         vim.keymap.set('n', '<S-ScrollWheelLeft>', '<Nop>', { buffer = bufnr, silent = true })
         vim.keymap.set('n', '<S-ScrollWheelRight>', '<Nop>', { buffer = bufnr, silent = true })
-
-        local function opts(desc)
-          return { desc = 'nvim-tree: ' .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-        end
 
         -- デフォルトのキーマップを使用
         api.config.mappings.default_on_attach(bufnr)
@@ -122,8 +122,9 @@ return {
         -- u: 親ディレクトリに戻る（cd upの意味）
         vim.keymap.set('n', 'u', api.tree.change_root_to_parent, opts('Up'))
 
-        -- -: 親ディレクトリに戻る（代替キー）
-        vim.keymap.set('n', '-', api.tree.change_root_to_parent, opts('Up'))
+        -- Shift+←/→: nvim-tree幅調整
+        vim.keymap.set('n', '<S-Right>', '<cmd>NvimTreeResize +5<cr>', opts('幅拡大'))
+        vim.keymap.set('n', '<S-Left>', '<cmd>NvimTreeResize -5<cr>', opts('幅縮小'))
 
         -- カーソル移動時に自動プレビュー
         local last_preview_path = nil
