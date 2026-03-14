@@ -22,8 +22,74 @@ vim.o.showmatch = true
 vim.g.mapleader = ' '
 vim.g.maplocalleader = "\\"
 
--- cursor shape by mode
-vim.o.guicursor = 'n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50'
+-- cursor shape + color by mode (lualineテーマの色を動的に取得)
+vim.o.guicursor = 'n-c:block-CursorNormal,i-ci-ve:ver25-CursorInsert,v:block-CursorVisual,r-cr:hor20-CursorReplace,o:hor50'
+
+-- lualineのハイライトグループからモード色を取得
+local mode_colors = {}
+
+local function get_lualine_mode_bg(mode_name)
+  local hl = vim.api.nvim_get_hl(0, { name = "lualine_a_" .. mode_name, link = false })
+  if hl and hl.bg then
+    return string.format("#%06x", hl.bg)
+  end
+  return nil
+end
+
+-- 色を暗くする（cursorline用：元の色を低い不透明度で黒に重ねたような色にする）
+local function darken(hex, amount)
+  local r = tonumber(hex:sub(2, 3), 16)
+  local g = tonumber(hex:sub(4, 5), 16)
+  local b = tonumber(hex:sub(6, 7), 16)
+  r = math.floor(r * amount)
+  g = math.floor(g * amount)
+  b = math.floor(b * amount)
+  return string.format("#%02x%02x%02x", r, g, b)
+end
+
+local function sync_cursor_colors()
+  mode_colors = {
+    normal  = get_lualine_mode_bg("normal")  or "#89b4fa",
+    insert  = get_lualine_mode_bg("insert")  or "#a6e3a1",
+    visual  = get_lualine_mode_bg("visual")  or "#cba6f7",
+    replace = get_lualine_mode_bg("replace") or "#f38ba8",
+    command = get_lualine_mode_bg("command") or "#fab387",
+  }
+  vim.api.nvim_set_hl(0, "CursorNormal",  { bg = mode_colors.normal })
+  vim.api.nvim_set_hl(0, "CursorInsert",  { bg = mode_colors.insert })
+  vim.api.nvim_set_hl(0, "CursorVisual",  { bg = mode_colors.visual })
+  vim.api.nvim_set_hl(0, "CursorReplace", { bg = mode_colors.replace })
+end
+
+-- cursorline有効化 + モードごとに背景色を変更
+vim.o.cursorline = true
+
+local function set_cursorline_for_mode(mode)
+  local color
+  if mode == "i" or mode == "ic" or mode == "ix" then
+    color = mode_colors.insert  or "#a6e3a1"
+  elseif mode == "R" or mode == "Rc" or mode == "Rx" then
+    color = mode_colors.replace or "#f38ba8"
+  elseif mode == "v" or mode == "V" or mode == "\22" then
+    color = mode_colors.visual  or "#cba6f7"
+  elseif mode == "c" then
+    color = mode_colors.command or "#fab387"
+  else
+    color = mode_colors.normal  or "#89b4fa"
+  end
+  local dim = darken(color, 0.15)
+  vim.api.nvim_set_hl(0, "CursorLine",   { bg = dim })
+  vim.api.nvim_set_hl(0, "CursorLineNr", { fg = color, bold = true })
+end
+
+-- 初期状態
+set_cursorline_for_mode("n")
+
+vim.api.nvim_create_autocmd("ModeChanged", {
+  callback = function()
+    set_cursorline_for_mode(vim.api.nvim_get_mode().mode)
+  end,
+})
 
 -- timeout for key sequence
 vim.o.timeoutlen = 500
@@ -94,12 +160,14 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
     vim.cmd.colorscheme("catppuccin")
-    -- プラグインのハイライト上書き後に透過を適用
+    -- プラグインのハイライト上書き後に透過・カーソル色を適用
     vim.schedule(function()
       vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
       vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
       vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+      sync_cursor_colors()
+      set_cursorline_for_mode("n")
     end)
   end,
 })
@@ -115,6 +183,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       vim.api.nvim_set_hl(0, "NormalNC", { bg = "NONE" })
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
       vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
+      sync_cursor_colors()
+      set_cursorline_for_mode("n")
     end)
   end,
 })
