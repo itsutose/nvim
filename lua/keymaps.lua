@@ -412,98 +412,54 @@ map('n', '<leader>t3', '<cmd>colorscheme carbonfox<cr>', {
   desc = 'Carbonfox（炭のような黒）'
 })
 
-map('n', '<leader>t4', '<cmd>colorscheme onedark<cr>', {
-  noremap = true,
-  silent = true,
-  desc = 'One Dark（暗めバランス型）'
-})
-
-map('n', '<leader>t5', '<cmd>colorscheme monokai-pro<cr>', {
+map('n', '<leader>t4', '<cmd>colorscheme monokai-pro<cr>', {
   noremap = true,
   silent = true,
   desc = 'Monokai Pro（ビビッド）'
 })
 
-map('n', '<leader>t6', '<cmd>colorscheme sonokai<cr>', {
+map('n', '<leader>t5', '<cmd>colorscheme sonokai<cr>', {
   noremap = true,
   silent = true,
   desc = 'Sonokai（Monokai進化版）'
 })
 
-map('n', '<leader>t7', '<cmd>colorscheme material<cr>', {
-  noremap = true,
-  silent = true,
-  desc = 'Material（Googleデザイン）'
-})
-
-map('n', '<leader>t8', '<cmd>colorscheme everforest<cr>', {
-  noremap = true,
-  silent = true,
-  desc = 'Everforest（緑系）'
-})
-
-map('n', '<leader>t9', '<cmd>colorscheme vscode<cr>', {
+map('n', '<leader>t6', '<cmd>colorscheme vscode<cr>', {
   noremap = true,
   silent = true,
   desc = 'VSCode Dark+（VSCode再現）'
 })
 
-map('n', '<leader>t0', '<cmd>colorscheme ayu-dark<cr>', {
+map('n', '<leader>t7', '<cmd>colorscheme gruvbox<cr>', {
   noremap = true,
   silent = true,
-  desc = 'Ayu（シンプル）'
+  desc = 'Gruvbox（カラフル）'
 })
 
-map('n', '<leader>tg', '<cmd>colorscheme gruvbox<cr>', {
-  noremap = true,
-  silent = true,
-  desc = 'Gruvbox（Python向け・カラフル）'
-})
-
--- ============================================================================
--- Python向けカラースキーム
--- ============================================================================
-
-map('n', '<leader>td', '<cmd>colorscheme tokyodark<cr>', {
-  noremap = true,
-  silent = true,
-  desc = 'TokyoDark'
-})
-
-map('n', '<leader>tt', '<cmd>colorscheme tokyonight-night<cr>', {
-  noremap = true,
-  silent = true,
-  desc = 'Tokyo Night (Python向け・推奨)'
-})
-
-map('n', '<leader>tn', '<cmd>colorscheme nordic<cr>', {
-  noremap = true,
-  silent = true,
-  desc = 'Nordic'
-})
-
-map('n', '<leader>tm', '<cmd>colorscheme material<cr>', {
-  noremap = true,
-  silent = true,
-  desc = 'Material'
-})
-
-map('n', '<leader>te', '<cmd>colorscheme everforest<cr>', {
-  noremap = true,
-  silent = true,
-  desc = 'Everforest'
-})
-
-map('n', '<leader>tr', '<cmd>colorscheme rose-pine<cr>', {
-  noremap = true,
-  silent = true,
-  desc = 'Rose Pine'
-})
-
-map('n', '<leader>tk', '<cmd>colorscheme kanagawa<cr>', {
+map('n', '<leader>t8', '<cmd>colorscheme kanagawa<cr>', {
   noremap = true,
   silent = true,
   desc = 'Kanagawa'
+})
+
+-- 現在のカラースキームをデフォルトとして保存
+map('n', '<leader>tD', function()
+  local scheme = vim.g.colors_name
+  if not scheme then
+    vim.notify("カラースキームが取得できません", vim.log.levels.ERROR)
+    return
+  end
+  local path = vim.fn.stdpath("data") .. "/default_colorscheme"
+  local f = io.open(path, "w")
+  if f then
+    f:write(scheme)
+    f:close()
+    vim.notify("デフォルトテーマを " .. scheme .. " に設定しました")
+  end
+end, {
+  noremap = true,
+  silent = true,
+  desc = '現在のテーマをデフォルトとして保存'
 })
 
 -- ============================================================================

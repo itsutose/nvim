@@ -31,86 +31,6 @@ return {
     end,
   },
 
-  -- TokyoDark
-  {
-    "tiagovla/tokyodark.nvim",
-    lazy = false,
-    priority = 1000,
-  },
-
-  -- Nordic
-  {
-    "AlexvZyl/nordic.nvim",
-    lazy = false,
-    priority = 1000,
-  },
-
-  -- Material
-  {
-    "marko-cerovac/material.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require('material').setup({
-        contrast = {
-          terminal = false,
-          sidebars = false,
-          floating_windows = false,
-          cursor_line = false,
-          non_current_windows = false,
-          filetypes = {},
-        },
-        styles = {
-          comments = { italic = true },
-          strings = {},
-          keywords = {},
-          functions = { bold = true },
-          variables = {},
-        },
-        plugins = {
-          "nvim-tree",
-          "telescope",
-          "which-key",
-        },
-      })
-    end,
-  },
-
-  -- Everforest
-  {
-    "sainnhe/everforest",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.g.everforest_background = 'hard'
-      vim.g.everforest_better_performance = 1
-    end,
-  },
-
-  -- Rose Pine
-  {
-    "rose-pine/neovim",
-    name = "rose-pine",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("rose-pine").setup({
-        variant = "main",
-        dark_variant = "main",
-        bold_vert_split = false,
-        dim_nc_background = false,
-        disable_background = false,
-        disable_float_background = false,
-        disable_italics = false,
-        highlight_groups = {
-          ["@function.call"] = { fg = "gold", bold = true },
-          ["@variable"] = { fg = "foam" },
-          ["@variable.parameter"] = { fg = "iris" },
-        },
-      })
-    end,
-  },
-
   -- Kanagawa
   {
     "rebelot/kanagawa.nvim",
@@ -238,18 +158,6 @@ return {
     priority = 1000,
   },
 
-  -- One Dark（暗めのバランス型）
-  {
-    "navarasu/onedark.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require('onedark').setup({
-        style = 'darker',
-      })
-    end
-  },
-
   -- Monokai Pro（Sublime Text風）
   {
     "loctvl842/monokai-pro.nvim",
@@ -277,15 +185,13 @@ return {
     priority = 1000,
     config = function()
       require('vscode').setup({
-        style = 'dark'
+        style = 'dark',
+        group_overrides = {
+          GitSignsAddLn = { bg = "#2a3a20" },
+          GitSignsChangeLn = { bg = "#2a2a1a" },
+          GitSignsDeleteLn = { bg = "#3a1a1a" },
+        },
       })
     end
-  },
-
-  -- Ayu（シンプルモダン）
-  {
-    "Shatur/neovim-ayu",
-    lazy = false,
-    priority = 1000,
   },
 }

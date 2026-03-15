@@ -36,16 +36,7 @@ local function get_lualine_mode_bg(mode_name)
   return nil
 end
 
--- 色を暗くする（cursorline用：元の色を低い不透明度で黒に重ねたような色にする）
-local function darken(hex, amount)
-  local r = tonumber(hex:sub(2, 3), 16)
-  local g = tonumber(hex:sub(4, 5), 16)
-  local b = tonumber(hex:sub(6, 7), 16)
-  r = math.floor(r * amount)
-  g = math.floor(g * amount)
-  b = math.floor(b * amount)
-  return string.format("#%02x%02x%02x", r, g, b)
-end
+vim.o.cursorline = true
 
 local function sync_cursor_colors()
   mode_colors = {
@@ -61,35 +52,6 @@ local function sync_cursor_colors()
   vim.api.nvim_set_hl(0, "CursorReplace", { bg = mode_colors.replace })
 end
 
--- cursorline有効化 + モードごとに背景色を変更
-vim.o.cursorline = true
-
-local function set_cursorline_for_mode(mode)
-  local color
-  if mode == "i" or mode == "ic" or mode == "ix" then
-    color = mode_colors.insert  or "#a6e3a1"
-  elseif mode == "R" or mode == "Rc" or mode == "Rx" then
-    color = mode_colors.replace or "#f38ba8"
-  elseif mode == "v" or mode == "V" or mode == "\22" then
-    color = mode_colors.visual  or "#cba6f7"
-  elseif mode == "c" then
-    color = mode_colors.command or "#fab387"
-  else
-    color = mode_colors.normal  or "#89b4fa"
-  end
-  local dim = darken(color, 0.15)
-  vim.api.nvim_set_hl(0, "CursorLine",   { bg = dim })
-  vim.api.nvim_set_hl(0, "CursorLineNr", { fg = color, bold = true })
-end
-
--- 初期状態
-set_cursorline_for_mode("n")
-
-vim.api.nvim_create_autocmd("ModeChanged", {
-  callback = function()
-    set_cursorline_for_mode(vim.api.nvim_get_mode().mode)
-  end,
-})
 
 -- timeout for key sequence
 vim.o.timeoutlen = 500
@@ -159,7 +121,14 @@ vim.api.nvim_create_autocmd("FileChangedShellPost", {
 -- Neovim起動完了後にカラースキームを適用
 vim.api.nvim_create_autocmd("VimEnter", {
   callback = function()
-    vim.cmd.colorscheme("catppuccin")
+    local colorscheme_file = vim.fn.stdpath("data") .. "/default_colorscheme"
+    local scheme = "catppuccin"
+    local f = io.open(colorscheme_file, "r")
+    if f then
+      scheme = f:read("*l") or scheme
+      f:close()
+    end
+    vim.cmd.colorscheme(scheme)
     -- プラグインのハイライト上書き後に透過・カーソル色を適用
     vim.schedule(function()
       vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
@@ -167,7 +136,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
       vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
       sync_cursor_colors()
-      set_cursorline_for_mode("n")
     end)
   end,
 })
@@ -184,7 +152,6 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
       vim.api.nvim_set_hl(0, "SignColumn", { bg = "NONE" })
       sync_cursor_colors()
-      set_cursorline_for_mode("n")
     end)
   end,
 })
