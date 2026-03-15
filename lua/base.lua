@@ -21,6 +21,7 @@ vim.o.showmatch = true
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = "\\"
+vim.keymap.set('n', '<Space>', '<Nop>')
 
 -- cursor shape + color by mode (lualineテーマの色を動的に取得)
 vim.o.guicursor = 'n-c:block-CursorNormal,i-ci-ve:ver25-CursorInsert,v:block-CursorVisual,r-cr:hor20-CursorReplace,o:hor50'
