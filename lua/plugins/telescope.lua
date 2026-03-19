@@ -13,6 +13,7 @@ return {
     { "<leader>g", function()
       require('telescope').extensions.live_grep_args.live_grep_args()
     end, desc = "Live grep (with args)" },
+    { "<leader>gs", "<cmd>Telescope git_status<cr>", desc = "Git: 変更ファイル一覧" },
   },
   config = function()
     local telescope = require('telescope')
