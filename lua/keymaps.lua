@@ -516,9 +516,29 @@ map('n', '<S-CR>', 'o<Esc>', {
 -- ============================================================================
 -- ファイルパスをクリップボードにコピー
 
+-- nvim-treeウィンドウならカーソル下ノードのパスを返す、それ以外はバッファのパスを返す
+local function get_file_path(modifier)
+  if vim.bo.filetype == 'NvimTree' then
+    local ok, api = pcall(require, 'nvim-tree.api')
+    if ok then
+      local node = api.tree.get_node_under_cursor()
+      if node and node.absolute_path then
+        if modifier == ':.' then
+          return vim.fn.fnamemodify(node.absolute_path, ':.')
+        elseif modifier == ':t' then
+          return vim.fn.fnamemodify(node.absolute_path, ':t')
+        else
+          return node.absolute_path
+        end
+      end
+    end
+  end
+  return vim.fn.expand('%' .. modifier)
+end
+
 -- 相対パスをコピー
 map('n', '<leader>yp', function()
-  local path = vim.fn.expand('%:.')
+  local path = get_file_path(':.')
   vim.fn.setreg('+', path)
   print('Copied relative path: ' .. path)
 end, {
@@ -529,7 +549,7 @@ end, {
 
 -- 絶対パスをコピー
 map('n', '<leader>yP', function()
-  local path = vim.fn.expand('%:p')
+  local path = get_file_path(':p')
   vim.fn.setreg('+', path)
   print('Copied absolute path: ' .. path)
 end, {
@@ -540,7 +560,7 @@ end, {
 
 -- ファイル名のみをコピー
 map('n', '<leader>yf', function()
-  local path = vim.fn.expand('%:t')
+  local path = get_file_path(':t')
   vim.fn.setreg('+', path)
   print('Copied filename: ' .. path)
 end, {
