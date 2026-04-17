@@ -78,6 +78,28 @@ if vim.fn.executable('pyright-langserver') == 1 then
   })
 end
 
+-- TypeScript / JavaScript
+if vim.fn.executable('typescript-language-server') == 1 then
+  vim.api.nvim_create_autocmd({'FileType', 'BufReadPost'}, {
+    pattern = {'typescript', 'typescriptreact', 'javascript', 'javascriptreact', '*.ts', '*.tsx', '*.js', '*.jsx'},
+    callback = function()
+      local ft = vim.bo.filetype
+      if ft == 'typescript' or ft == 'typescriptreact' or ft == 'javascript' or ft == 'javascriptreact' then
+        local clients = vim.lsp.get_clients({ bufnr = 0, name = 'ts_ls' })
+        if #clients == 0 then
+          local root_files = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' }
+          local root_dir = vim.fs.dirname(vim.fs.find(root_files, { upward = true })[1]) or vim.fn.getcwd()
+          vim.lsp.start({
+            name = 'ts_ls',
+            cmd = { 'typescript-language-server', '--stdio' },
+            root_dir = root_dir,
+          })
+        end
+      end
+    end,
+  })
+end
+
 -- Lua
 if vim.fn.executable('lua-language-server') == 1 then
   vim.api.nvim_create_autocmd({'FileType', 'BufReadPost'}, {
