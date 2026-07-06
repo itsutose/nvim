@@ -8,6 +8,22 @@ vim.o.number = true
 
 vim.o.smartindent = true
 vim.o.clipboard = "unnamedplus"
+
+-- SSH越しはpbcopy(ローカルmac)に届かないので、OSC 52でクライアント端末の
+-- クリップボードに送る。ローカル起動時は従来通りpbcopyを使う。
+-- pasteはyankレジスタを読む（OSC 52 pasteは端末応答待ちで固まるため片方向にする）。
+if os.getenv("SSH_TTY") or os.getenv("SSH_CONNECTION") then
+  local osc52 = require("vim.ui.clipboard.osc52")
+  local function paste()
+    return { vim.fn.split(vim.fn.getreg(""), "\n"), vim.fn.getregtype("") }
+  end
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = { ["+"] = osc52.copy("+"), ["*"] = osc52.copy("*") },
+    paste = { ["+"] = paste, ["*"] = paste },
+  }
+end
+
 vim.o.list = true
 vim.o.expandtab = true
 vim.o.tabstop = 2
