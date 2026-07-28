@@ -26,6 +26,7 @@ return {
         javascript = { "prettierd" },
         typescript = { "prettierd" },
         json = { "prettierd" },
+        jsonc = { "prettierd" },
         sql = { "sql_formatter" },
         ["_"] = { "trim_whitespace" },
       },
